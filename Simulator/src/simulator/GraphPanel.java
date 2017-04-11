@@ -9,6 +9,8 @@
 package simulator;
 
 
+
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -58,7 +60,7 @@ public class GraphPanel extends javax.swing.JPanel {
     private int numberYDivisions = 10;
     private List<Double> scores;
 
-    public GraphPanel() {
+    public GraphPanel(List<Double> scores) {
         this.scores = scores;
     }
 
@@ -187,7 +189,7 @@ public class GraphPanel extends javax.swing.JPanel {
             scores.add((double) random.nextDouble() * maxScore);
 //            scores.add((double) i);
         }
-        GraphPanel mainPanel = new GraphPanel();
+        GraphPanel mainPanel = new GraphPanel(scores);
         mainPanel.setPreferredSize(new Dimension(800, 600));
         JFrame frame = new JFrame("DrawGraph");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
