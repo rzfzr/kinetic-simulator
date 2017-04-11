@@ -232,12 +232,12 @@ public void myInitComponents() {
         
          final XYSeries s1 = new XYSeries("Series 1");
          
-                 for (int i = 1; i <= 50; i++) {
-            s1.add(i, 10 * Math.exp(i / 5.0));
-        }
+            for (int i = 1; i <= 50; i++) {
+            s1.add(i, 10 * Math.exp( 1.0/i));
+            }
                  
-                  final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(s1);
+            final XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries(s1);
                   
 //        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 //        dataset.setValue(5, "", "");
@@ -248,6 +248,10 @@ public void myInitComponents() {
 //        JFreeChart chart = ChartFactory.createLineChart("", "", "", dataset,PlotOrientation.HORIZONTAL,false,false,false);
 //        CategoryPlot catPlot = chart.getCategoryPlot();
 //        catPlot.setRangeGridlinePaint(Color.BLACK);
+        
+        //chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        //setContentPane(chartPanel);     
+        //ChartPanel chartPanel = new ChartPanel(chart);
         
 
         final JFreeChart chart = ChartFactory.createXYLineChart(
@@ -263,18 +267,24 @@ public void myInitComponents() {
         
         final XYPlot plot = chart.getXYPlot();
         final NumberAxis domainAxis = new NumberAxis("x");
-        final NumberAxis rangeAxis = new LogarithmicAxis("Log(y)");
+        final NumberAxis rangeAxis = new NumberAxis("Log(y)");
         plot.setDomainAxis(domainAxis);
         plot.setRangeAxis(rangeAxis);
         chart.setBackgroundPaint(Color.white);
         plot.setOutlinePaint(Color.black);
+        
+        
+        rangeAxis.setAutoRangeIncludesZero(false);
+        plot.setOrientation(PlotOrientation.VERTICAL);
+
+        
+        
+        
+        
+        
+        
+        
         final ChartPanel chartPanel = new ChartPanel(chart);
-        //chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        //setContentPane(chartPanel);
-        
-        
-        //ChartPanel chartPanel = new ChartPanel(chart);
-        
         GraphPanel.removeAll();
         GraphPanel.add(chartPanel, BorderLayout.CENTER);
         GraphPanel.validate();
