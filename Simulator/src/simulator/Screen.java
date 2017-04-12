@@ -134,7 +134,12 @@ public class Screen extends javax.swing.JFrame {
 
         jLabel5.setText("Lados");
 
-        TextDices.setText("10000000000");
+        TextDices.setText("20");
+        TextDices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextDicesActionPerformed(evt);
+            }
+        });
 
         TextSides.setText("6");
 
@@ -313,30 +318,57 @@ public class Screen extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        double dices = Double.parseDouble(TextDices.getText());
-        int sides = Integer.parseInt(TextSides.getText()); //6
+        int dicesTotal = Integer.valueOf(TextDices.getText());
+        int sides = Integer.valueOf(TextSides.getText()); //6
 
-        int rolls = 0;
+        final XYSeries s1 = new XYSeries("Series 1");
+//        final XYSeries aux = new XYSeries("Series Aux");
+//s1.clear();
+        
+        int roll = 0;
         int dead=0;
+        int[] deadlist = new int[100];
+        
         boolean isRolling = true;
-
+        int dices=dicesTotal;
+int rolled=0;
         while (isRolling) {
-                rolls++;
+                roll++;
                 
             while (dices > 0) {
-                int rolled = ThreadLocalRandom.current().nextInt(1, sides + 1);
-                if (rolled == 1) {
-                    dead++;
+                rolled = ThreadLocalRandom.current().nextInt(1, sides + 1);
+                
+                    if (rolled == 1) {
                     dices--;
-                }
-
+                    dead++;
+                }else{
+                dices--;}
             }
-        }
-        final XYSeries s1 = new XYSeries("Series 1");
+            
+//;            deadlist[roll]=dead;
 
-        for (int i = 1; i <= 50; i++) {
-            s1.add(i, 10 * Math.exp(1.0 / i));
+ 
+       s1.add(roll, dead);
+       
+       
+            dices=dead;
+            
+//            if(dead==dicesTotal){
+if(roll>20){
+                isRolling=false;
+            }
+            
         }
+        
+//        while(roll>0){
+//            roll--;
+//             
+//       s1.add(20-roll, deadlist[roll]);
+//        }
+
+//        for (int i = 1; i <= 50; i++) {
+//            s1.add(i, 10 * Math.exp(1.0 / i));
+//        }
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(s1);
@@ -353,7 +385,7 @@ public class Screen extends javax.swing.JFrame {
         //setContentPane(chartPanel);     
         //ChartPanel chartPanel = new ChartPanel(chart);
         final JFreeChart chart = ChartFactory.createXYLineChart(
-                "Log Axis Demo", // chart title
+                "Dados", // chart title
                 "Category", // domain axis label
                 "Value", // range axis label
                 dataset, // data
@@ -364,8 +396,8 @@ public class Screen extends javax.swing.JFrame {
         );
 
         final XYPlot plot = chart.getXYPlot();
-        final NumberAxis domainAxis = new NumberAxis("x");
-        final NumberAxis rangeAxis = new NumberAxis("Log(y)");
+        final NumberAxis domainAxis = new NumberAxis("Jogadas");
+        final NumberAxis rangeAxis = new NumberAxis("Dados Restantes");
         plot.setDomainAxis(domainAxis);
         plot.setRangeAxis(rangeAxis);
         chart.setBackgroundPaint(Color.white);
@@ -405,6 +437,10 @@ public class Screen extends javax.swing.JFrame {
 
         LabelResult.setText(Double.toString(result));
     }//GEN-LAST:event_ButtonCalculateActionPerformed
+
+    private void TextDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextDicesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextDicesActionPerformed
 
     /**
      * @param args the command line arguments
