@@ -50,6 +50,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import java.lang.Math;//for logs
 
 import java.util.concurrent.ThreadLocalRandom;//rolling the dices
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -143,7 +144,7 @@ public class Screen extends javax.swing.JFrame {
         jLabel5.setText("Lados");
 
         TextDices.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        TextDices.setText("3000");
+        TextDices.setText("100");
         TextDices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextDicesActionPerformed(evt);
@@ -378,72 +379,45 @@ public class Screen extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        int dicesTotal = Integer.valueOf(TextDices.getText());
-        int sides = Integer.valueOf(TextSides.getText()); //6
+        int diceTotal = Integer.valueOf(TextDices.getText()); //numero de dados
+        int sides = Integer.valueOf(TextSides.getText()); //numero de lados
 
         final XYSeries s1 = new XYSeries("Decaimento");
-//        final XYSeries aux = new XYSeries("Series Aux");
-//s1.clear();
-        
-        int roll = 0;
-        int dead=0;
-        int[] deadlist = new int[100];
-        
-        boolean isRolling = true;
-        int dices=dicesTotal;
-        int rolled=0;
-        while (isRolling) {
-                roll++;
-                
-            while (dices > 0) {
-                rolled = ThreadLocalRandom.current().nextInt(1, sides + 1);
-                
-                    if (rolled == 1) {
-                    dices--;
-                    dead++;
-                }else{
-                dices--;}
-            }
-            
-//;            deadlist[roll]=dead;
 
- 
-       s1.add(roll, dead);
-       
-       
-            dices=dead;
-            
-//            if(dead==dicesTotal){
-if(roll>20){
-                isRolling=false;
+        int dice = diceTotal;
+        int maxRoll = 100;
+        int roll = 0;   //numero de jogadas
+
+        int rolled;
+
+        DefaultListModel lm;
+
+        lm = new DefaultListModel();
+        jList1.setModel(lm);
+
+//        while (roll < maxRoll) {
+
+            lm.addElement(dice); //inicial point
+            s1.add(0, dice);
+        while (dice>0){
+            roll++;
+            rolled = 0;
+            while (rolled < dice) {
+                rolled++;
+                int rand = ThreadLocalRandom.current().nextInt(1, sides + 1);
+
+                if (rand == 1) {
+                    dice--;
+                }
+
             }
-            
+
+            lm.addElement(rolled);
+            s1.add(roll, rolled);//x,y
         }
-        
-//        while(roll>0){
-//            roll--;
-//             
-//       s1.add(20-roll, deadlist[roll]);
-//        }
-
-//        for (int i = 1; i <= 50; i++) {
-//            s1.add(i, 10 * Math.exp(1.0 / i));
-//        }
-
         final XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(s1);
 
-//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//        dataset.setValue(5, "", "");
-//        dataset.setValue(6, "", "");
-//        dataset.setValue(7, "", "");
-//        dataset.setValue(8, "", "");
-//        JFreeChart chart = ChartFactory.createLineChart("", "", "", dataset,PlotOrientation.HORIZONTAL,false,false,false);
-//        CategoryPlot catPlot = chart.getCategoryPlot();
-//        catPlot.setRangeGridlinePaint(Color.BLACK);
-        //chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        //setContentPane(chartPanel);     
-        //ChartPanel chartPanel = new ChartPanel(chart);
         final JFreeChart chart = ChartFactory.createXYLineChart(
                 "Dados", // chart title
                 "Category", // domain axis label
@@ -471,16 +445,13 @@ if(roll>20){
         GraphPanel.add(chartPanel, BorderLayout.CENTER);
         GraphPanel.validate();
 
-        //  NewJPanel ne = new NewJPanel();
-        //        jPanel4.add(new NewJPanel());
-        //        jPanel4.repaint();
-        //        jPanel4.revalidate();
-        //jPanel4.setVisible(true);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void TextFinalDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFinalDicesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextFinalDicesActionPerformed
+
 
     private void ButtonCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCalculateActionPerformed
 
