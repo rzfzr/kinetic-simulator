@@ -340,7 +340,17 @@ public class Screen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // Clear everything
+            value_p.setText(" ");
+            
+            
+        GraphPanel.removeAll();
+        GraphPanel.validate();
+        
+        
+        DefaultListModel lm;  //empty model to the list 
+        lm = new DefaultListModel();
+        jList1.setModel(lm);
 
 //        graphPanel1 = new simulator.GraphPanel(lista);
     }//GEN-LAST:event_jButton2ActionPerformed
