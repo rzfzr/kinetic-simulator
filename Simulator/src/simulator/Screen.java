@@ -17,8 +17,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 
 import java.lang.Math;//for logs
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.concurrent.ThreadLocalRandom;//rolling the dices
+import javafx.util.Pair;
 import javax.swing.DefaultListModel;
 
 /**
@@ -72,6 +75,7 @@ public class Screen extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         value_p = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         TextInicialRoll = new javax.swing.JTextField();
         TextInicialDices = new javax.swing.JTextField();
@@ -94,7 +98,7 @@ public class Screen extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 345, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Meia Vida Quimica", jPanel1);
@@ -160,13 +164,20 @@ public class Screen extends javax.swing.JFrame {
 
         value_p.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
+        jButton3.setText("Salvar Resultados");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -181,7 +192,8 @@ public class Screen extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(value_p)))
+                        .addComponent(value_p))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(GraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -215,12 +227,14 @@ public class Screen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(value_p)))
+                            .addComponent(value_p))
+                        .addGap(68, 68, 68)
+                        .addComponent(jButton3))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1)))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados", jPanel4);
@@ -318,7 +332,7 @@ public class Screen extends javax.swing.JFrame {
                 .addComponent(ButtonCalculate)
                 .addGap(9, 9, 9)
                 .addComponent(LabelResult, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Meia Vida Calculada", jPanel2);
@@ -377,14 +391,15 @@ public class Screen extends javax.swing.JFrame {
         int rolled; //selected dice per roll
 
         DefaultListModel lm;  //needed for list
+        
+        
         lm = new DefaultListModel();
-        jList1.setModel(lm);//after this the list is updated when
-                            //we add or remove to the model
+        jList1.setModel(lm);//after this the list is updated when we add or remove to the model
 
-                            
-            lm.addElement(dice); //inicial point
-            s1.add(0, dice);
-        while (dice>0){// if there are still dice
+        //TODO: use hashMap as int is unique, or substitute '=' with correct number of spaces
+        lm.addElement(new Pair(0, dice)); //inicial point
+        s1.add(0, dice);
+        while (dice > 0) {// if there are still dice
             roll++;
             rolled = 0;
             while (rolled < dice) {//roll all the remaining dice
@@ -397,7 +412,7 @@ public class Screen extends javax.swing.JFrame {
 
             }
 
-            lm.addElement(rolled);//add to the list
+            lm.addElement(new Pair(roll, rolled) );//add to the list
             s1.add(roll, rolled);//add to the chart (x,y)
         }
         GraphIt(s1);//plot all the points
@@ -467,6 +482,10 @@ public class Screen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TextDicesActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -515,6 +534,7 @@ public class Screen extends javax.swing.JFrame {
     private javax.swing.JTextField TextSides;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
