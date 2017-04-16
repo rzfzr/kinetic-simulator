@@ -6,46 +6,15 @@
 package simulator;
 
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.annotations.XYTextAnnotation;
-import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
-
-import org.jfree.chart.axis.LogarithmicAxis;
-
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 import java.lang.Math;//for logs
 
@@ -379,44 +348,49 @@ public class Screen extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        int diceTotal = Integer.valueOf(TextDices.getText()); //numero de dados
-        int sides = Integer.valueOf(TextSides.getText()); //numero de lados
+        int dice = Integer.valueOf(TextDices.getText()); //number of dice
+        int sides = Integer.valueOf(TextSides.getText()); //number of sides
 
-        final XYSeries s1 = new XYSeries("Decaimento");
+        final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
 
-        int dice = diceTotal;
-        int maxRoll = 100;
-        int roll = 0;   //numero de jogadas
+        int roll = 0;   //current roll
 
-        int rolled;
+        int rolled; //selected dice per roll
 
-        DefaultListModel lm;
-
+        DefaultListModel lm;  //needed for list
         lm = new DefaultListModel();
-        jList1.setModel(lm);
+        jList1.setModel(lm);//after this the list is updated when
+                            //we add or remove to the model
 
-//        while (roll < maxRoll) {
-
+                            
             lm.addElement(dice); //inicial point
             s1.add(0, dice);
-        while (dice>0){
+        while (dice>0){// if there are still dice
             roll++;
             rolled = 0;
-            while (rolled < dice) {
-                rolled++;
-                int rand = ThreadLocalRandom.current().nextInt(1, sides + 1);
+            while (rolled < dice) {//roll all the remaining dice
+                rolled++;//minus one to roll
+                int rand = ThreadLocalRandom.current().nextInt(1, sides + 1);//rand number between 1 and the number of sides of the dice
 
-                if (rand == 1) {
-                    dice--;
+                if (rand == 1) {//if random number == 1 then
+                    dice--;//take one die away
                 }
 
             }
 
-            lm.addElement(rolled);
-            s1.add(roll, rolled);//x,y
+            lm.addElement(rolled);//add to the list
+            s1.add(roll, rolled);//add to the chart (x,y)
         }
+        GraphIt(s1);//plot all the points
+        
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void GraphIt(XYSeries s){//settings to mess with the graph styling
+        
         final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(s1);
+        dataset.addSeries(s);
 
         final JFreeChart chart = ChartFactory.createXYLineChart(
                 "Dados", // chart title
@@ -444,10 +418,11 @@ public class Screen extends javax.swing.JFrame {
         GraphPanel.removeAll();
         GraphPanel.add(chartPanel, BorderLayout.CENTER);
         GraphPanel.validate();
-
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+        
+    }
+    
+    
+    
     private void TextFinalDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFinalDicesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextFinalDicesActionPerformed
