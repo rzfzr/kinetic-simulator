@@ -40,7 +40,6 @@ public class Screen extends javax.swing.JFrame {
 //        double test;
 //        graph= new GraphJPanel(test);
 //        graph.setVisible(true);
-        value_p.setText("3,6");
     }
 
     public void myInitComponents() {
@@ -348,9 +347,19 @@ public class Screen extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        
+        
+        
+        
+        
         int dice = Integer.valueOf(TextDices.getText()); //number of dice
         int sides = Integer.valueOf(TextSides.getText()); //number of sides
 
+        double theoric = Math.log10(2) / Math.log10((double)sides/((double)sides-1)); //meia vida teorica
+        value_p.setText(Double.toString(theoric));
+        
+        
+        
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
 
         int roll = 0;   //current roll
