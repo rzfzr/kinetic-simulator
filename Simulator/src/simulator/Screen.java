@@ -24,9 +24,32 @@ import java.util.concurrent.ThreadLocalRandom;//rolling the dices
 import javafx.util.Pair;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.plot.Crosshair;
 
+
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.panel.CrosshairOverlay;
+import org.jfree.chart.plot.Crosshair;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleEdge;
 /**
  *
  * @author rzfzr
@@ -39,6 +62,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     /**
      * Creates new form Screen
      */
+    
+    
+    
     public Screen() {
         initComponents();
 
@@ -48,7 +74,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 //        graph.setVisible(true);
     }
     
-    
+    private ChartPanel chartPanel;
     
     
     private Crosshair xCrosshair;
@@ -484,6 +510,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                 false
         );
 
+        
+        
         final XYPlot plot = chart.getXYPlot();
         final NumberAxis domainAxis = new NumberAxis("Jogadas");
         final NumberAxis rangeAxis = new NumberAxis("Dados Restantes");
@@ -495,17 +523,32 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         rangeAxis.setAutoRangeIncludesZero(false);
         plot.setOrientation(PlotOrientation.VERTICAL);
 
-        final ChartPanel chartPanel = new ChartPanel(chart);
+//        final ChartPanel 
+                chartPanel = new ChartPanel(chart);
         GraphPanel.removeAll();
         GraphPanel.add(chartPanel, BorderLayout.CENTER);
         GraphPanel.validate();
         
+        
+        
+        //TODO: clean this up, its just a copy from http://stackoverflow.com/questions/21172794/jfreechart-dispay-mouse-coordinates-near-to-mouse-as-hints-on-mouse-move
+        //TODO: round rolls to next int (snap if possible)
+        //TODO: select item in list by crosshair
+        chartPanel.addChartMouseListener(this);
+        CrosshairOverlay crosshairOverlay = new CrosshairOverlay();
+        this.xCrosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(0f));
+        this.xCrosshair.setLabelVisible(true);
+        this.yCrosshair = new Crosshair(Double.NaN, Color.GRAY, new BasicStroke(0f));
+        this.yCrosshair.setLabelVisible(true);
+        crosshairOverlay.addDomainCrosshair(xCrosshair);
+        crosshairOverlay.addRangeCrosshair(yCrosshair);
+        chartPanel.addOverlay(crosshairOverlay);
     }
     
     
     
     private void TextFinalDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFinalDicesActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_TextFinalDicesActionPerformed
 
 
@@ -604,4 +647,24 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel value_p;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void chartMouseClicked(ChartMouseEvent cme) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+        
+        @Override
+    public void chartMouseMoved(ChartMouseEvent event) {
+        Rectangle2D dataArea = this.chartPanel.getScreenDataArea();
+        JFreeChart chart = event.getChart();
+        XYPlot plot = (XYPlot) chart.getPlot();
+        ValueAxis xAxis = plot.getDomainAxis();
+        double x = xAxis.java2DToValue(event.getTrigger().getX(), dataArea, 
+                RectangleEdge.BOTTOM);
+        double y = DatasetUtilities.findYValue(plot.getDataset(), 0, x);
+        this.xCrosshair.setValue(x);
+        this.yCrosshair.setValue(y);
+    }
+    
 }
