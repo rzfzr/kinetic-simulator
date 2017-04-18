@@ -24,12 +24,14 @@ import java.util.concurrent.ThreadLocalRandom;//rolling the dices
 import javafx.util.Pair;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import org.jfree.chart.ChartMouseListener;
+import org.jfree.chart.plot.Crosshair;
 
 /**
  *
  * @author rzfzr
  */
-public class Screen extends javax.swing.JFrame {
+public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 //    GraphJPanel graph;\
 //    static NewJPanel ne = new NewJPanel();
 
@@ -45,7 +47,16 @@ public class Screen extends javax.swing.JFrame {
 //        graph= new GraphJPanel(test);
 //        graph.setVisible(true);
     }
+    
+    
+    
+    
+    private Crosshair xCrosshair;
 
+    private Crosshair yCrosshair;
+
+
+     
     public void myInitComponents() {
         
             
