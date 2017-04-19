@@ -72,6 +72,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 //        double test;
 //        graph= new GraphJPanel(test);
 //        graph.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
     
     private ChartPanel chartPanel;
@@ -143,6 +145,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel11.setText("Entrada");
 
