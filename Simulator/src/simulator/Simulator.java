@@ -5,6 +5,11 @@
  */
 package simulator;
 
+import java.util.concurrent.ThreadLocalRandom;
+import javafx.util.Pair;
+import javax.swing.DefaultListModel;
+import org.jfree.data.xy.XYSeries;
+
 /**
  *
  * @author rzfzr
@@ -17,5 +22,52 @@ public class Simulator {
     public static void main(String[] args) {
         // TODO code application logic he   re
     }
-    
+
+    public class Data {
+
+        XYSeries s1;
+        DefaultListModel lm;
+
+        Data(XYSeries s1, DefaultListModel lm) {
+            this.s1 = s1;
+            this.lm = lm;
+        }
+
+    }
+
+    public Data CalculateDice(int dice, int sides) {
+
+        final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
+        int roll = 0;   //current roll
+        int rolled; //selected dice per roll
+
+        DefaultListModel lm;  //needed for list
+        lm = new DefaultListModel();
+
+        //TODO: use hashMap as int is unique, or substitute '=' with correct number of spaces
+        lm.addElement(new Pair(0, dice)); //inicial point
+        s1.add(0, dice);
+        while (dice > 0) {// if there are still dice
+            roll++;
+            rolled = 0;
+            while (rolled < dice) {//roll all the remaining dice
+                rolled++;//minus one to roll
+                int rand = ThreadLocalRandom.current().nextInt(1, sides + 1);//rand number between 1 and the number of sides of the dice
+
+                if (rand == 1) {//if random number == 1 then
+                    dice--;//take one die away
+                }
+
+            }
+
+            lm.addElement(new Pair(roll, rolled));//add to the list
+            s1.add(roll, rolled);//add to the chart (x,y)
+
+        }
+
+        Data data = new Data(s1, lm);
+
+        return data;
+    }
+
 }

@@ -6,7 +6,7 @@
 
 
 
-package simulator;
+package simulator.demos;
 
 
 
