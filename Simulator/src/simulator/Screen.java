@@ -511,11 +511,12 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     
     
-    CalculateSelectedRolls calcScreen;
+    CalculateDialog calcDialog;
     private void CalculateSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelectedActionPerformed
 
-        calcScreen = new CalculateSelectedRolls();
-        calcScreen.setVisible(true);
+        calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
+        calcDialog.setLocationRelativeTo(this);
+        calcDialog.setVisible(true);
 
 
     }//GEN-LAST:event_CalculateSelectedActionPerformed
