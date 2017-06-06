@@ -61,7 +61,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gramas", "Moleculas", "Unidades"}));
 
         
-        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
+        
+        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV()));
+//        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
 
     }
 

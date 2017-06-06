@@ -5,6 +5,9 @@
  */
 package simulator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.util.Pair;
 import javax.swing.DefaultListModel;
@@ -35,8 +38,37 @@ public class Simulator {
 
     }
 
+    public String[] getDataCSV() {
+
+        //File directory = new File("./");//System.out.println(directory.getAbsolutePath());
+        File csv = new File("../acervo.csv");
+
+        int i=0;
+        String[] arr= new String[10];//TODO: make dinamic
+        
+        try {
+            Scanner scan = new Scanner(csv);
+            String line = new String();
+            scan.nextLine();//ignores first line
+
+            while (scan.hasNext()) {
+                line = scan.nextLine();
+                String[] item = line.split(",");
+                arr[i] = item[0];i++;//item address is the column
+//                System.out.println(item[1]);
+            }
+            return arr;
+            } catch (FileNotFoundException e) {
+            System.out.println("CSV file not found");
+            return null;
+        }
+
+        
+    }
+
     public Data CalculateDice(int dice, int sides) {
 
+        
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
         int roll = 0;   //current roll
         int rolled; //selected dice per roll

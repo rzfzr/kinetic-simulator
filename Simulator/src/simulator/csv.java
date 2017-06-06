@@ -2,14 +2,13 @@ package simulator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-
-
-public class csv {
+public class csv {    
     
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) {        
         
         File directory = new File("./");
-   System.out.println(directory.getAbsolutePath());
+        //System.out.println(directory.getAbsolutePath());
             
        File arquivoCSV = new File("../acervo.csv");
         
@@ -25,7 +24,7 @@ public class csv {
             }
         
         }catch(FileNotFoundException e){            
-                System.out.println("nope");
+                System.out.println("CSV file not found");
         }
         
     }
