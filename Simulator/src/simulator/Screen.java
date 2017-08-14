@@ -34,9 +34,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 //    static NewJPanel ne = new NewJPanel();
 
 //    public List<Double> scores;
-    /**
-     * Creates new form Screen
-     */
     public Screen() {
         initComponents();
 
@@ -44,21 +41,32 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
-
     private ChartPanel chartPanel;
     private Crosshair xCrosshair;
     private Crosshair yCrosshair;
 
-    
     Simulator sim;
     Simulator.Data data;
+    
+    public String[] HLValues;//data
+    public String[] HLTypes;
+    
     public void myInitComponents() {        
         sim = new Simulator();
         ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gramas", "Moleculas", "Unidades"}));
+        ComboTypeTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Anos", "Meses", "Dias","Horas","Minutos"}));
 
         
         
-        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV()));
+        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV(0)));
+        HLValues = sim.getDataCSV(1);
+        HLTypes = sim.getDataCSV(2);
+        
+                    InputTimeTemp.setEnabled(false);
+            ComboTypeTime.setEnabled(false);
+            jLabel18.setEnabled(false);
+        
+        
 //        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
 
     }
@@ -88,7 +96,10 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jButton6 = new javax.swing.JButton();
         CalculateSelected1 = new javax.swing.JButton();
         ComboTypeElement = new javax.swing.JComboBox<>();
-        InputYearsTemp = new javax.swing.JTextField();
+        InputTimeTemp = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        ComboTypeTime = new javax.swing.JComboBox<>();
+        jCheckBoxCustomElement = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -124,6 +135,11 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboTypeActionPerformed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Decaimento");
@@ -195,12 +211,29 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         });
 
         ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        InputYearsTemp.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        InputYearsTemp.setText("15");
-        InputYearsTemp.addActionListener(new java.awt.event.ActionListener() {
+        ComboTypeElement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InputYearsTempActionPerformed(evt);
+                ComboTypeElementActionPerformed(evt);
+            }
+        });
+
+        InputTimeTemp.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        InputTimeTemp.setText("15");
+        InputTimeTemp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputTimeTempActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setText("Meia Vida");
+
+        ComboTypeTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jCheckBoxCustomElement.setText("Elemento Customizado");
+        jCheckBoxCustomElement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCustomElementActionPerformed(evt);
             }
         });
 
@@ -210,7 +243,11 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(56, 56, 56)
+                        .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -228,13 +265,14 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addComponent(ComboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(InputQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(InputYearsTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBoxCustomElement))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
@@ -257,9 +295,15 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(InputYearsTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxCustomElement)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16)
@@ -548,10 +592,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonClearDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearDiceActionPerformed
-        clearAll();
+        ClearDiceScreen();
     }//GEN-LAST:event_jButtonClearDiceActionPerformed
-    
-    void clearAll(){        
+    void ClearDiceScreen(){        
         // Clear everything
         value_p.setText(" ");
 
@@ -563,7 +606,23 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jList1.setModel(lm);
 
         
-    }
+        System.out.println("Cleared Dice Screen");
+    } 
+    void ClearSimulateScreen(){        
+        // Clear everything
+        value_p1.setText(" ");
+
+        GraphPanelSimulator.removeAll();
+        GraphPanelSimulator.validate();
+
+        DefaultListModel lm;  //empty model to the list 
+        lm = new DefaultListModel();
+        jList2.setModel(lm);
+
+        
+        System.out.println("Cleared Simulator Screen");
+    }      
+        
     private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
 
         int dice = Integer.valueOf(InputDices.getText()); //number of dice
@@ -579,7 +638,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         System.out.println("Rolled "+dice+" "+sides+" sided dice");
     }//GEN-LAST:event_jButtonRollDiceActionPerformed
-
     private void GraphIt(JPanel panel, XYSeries s) {//settings to mess with the graph styling
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
@@ -601,7 +659,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         final XYPlot plot = chart.getXYPlot();
         final NumberAxis domainAxis = new NumberAxis("Jogadas");
-        final NumberAxis rangeAxis = new NumberAxis("Dados Restantes");
+        final NumberAxis rangeAxis = new NumberAxis("Dados Restante");
         
         plot.setDomainAxis(domainAxis);
         plot.setRangeAxis(rangeAxis);
@@ -628,8 +686,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         );
 
         final XYPlot plot = chart.getXYPlot();
-        final NumberAxis domainAxis = new NumberAxis("Anos");//TODO: make dinamic, years/hours/minutes
-        final NumberAxis rangeAxis = new NumberAxis("Quantidade Restantes");
+        final NumberAxis domainAxis = new NumberAxis(ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()));//TODO: make dinamic, years/hours/minutes
+        final NumberAxis rangeAxis = new NumberAxis("Quantidade Restante");
         
         plot.setDomainAxis(domainAxis);
         plot.setRangeAxis(rangeAxis);
@@ -664,8 +722,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         crosshairOverlay.addRangeCrosshair(yCrosshair);
         chartPanel.addOverlay(crosshairOverlay);
     }
-
-
     private void TextFinalDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFinalDicesActionPerformed
 
     }//GEN-LAST:event_TextFinalDicesActionPerformed
@@ -699,36 +755,46 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
 
     }//GEN-LAST:event_CalculateSelectedActionPerformed
-
     private void CalculateSelected1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelected1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CalculateSelected1ActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
+        ClearSimulateScreen();
+    }//GEN-LAST:event_jButton5ActionPerformed
     private void JButtonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSimulateActionPerformed
         //Simular
         
         int quantity = Integer.valueOf(InputQuantity.getText()); 
+        int time;
         
-        int years = Integer.valueOf(InputYearsTemp.getText()); //number of sides
+        
+        System.out.println("Simulated "+quantity+" "+ComboType.getItemAt(ComboType.getSelectedIndex())+" of ");
+        
+        if(jCheckBoxCustomElement.isSelected()){
+            time = Integer.valueOf(InputTimeTemp.getText());
+            System.out.println("Elemento Customizado" + " (MV de "+time+" "+ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex())+")");
+        }else{
+            time = Integer.valueOf(HLValues[ComboTypeElement.getSelectedIndex()]);
+            
+            System.out.println(ComboTypeElement.getItemAt(ComboTypeElement.getSelectedIndex())+" (MV de "+
+                HLValues[ComboTypeElement.getSelectedIndex()]+" "+HLTypes[ComboTypeElement.getSelectedIndex()]+")");
+        
+            
+        }
 
-        double theoric = Math.log10(2) / Math.log10((double) years / ((double) years - 1)); //meia vida teorica
-        value_p.setText(Double.toString(theoric));
+        double theoric = Math.log10(2) / Math.log10((double) time / ((double) time - 1)); 
+        value_p1.setText(Double.toString(theoric));
 
         
-        data = sim.CalculateDice(quantity, years);
+        data = sim.CalculateDice(quantity, time);
         GraphIt(GraphPanelSimulator,data.s1);//plot all the points
-        jList1.setModel(data.lm);//after this the list is updated when we add or remove to the model
+        jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
         
         
-        System.out.println("Simulated "+quantity+" grams* of Uranium* for "+years+" years*");
 
     }//GEN-LAST:event_JButtonSimulateActionPerformed
 
@@ -736,9 +802,44 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         // TODO add your handling code here:
     }//GEN-LAST:event_InputQuantityActionPerformed
 
-    private void InputYearsTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputYearsTempActionPerformed
+    private void InputTimeTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputTimeTempActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_InputYearsTempActionPerformed
+    }//GEN-LAST:event_InputTimeTempActionPerformed
+
+    private void ComboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboTypeActionPerformed
+
+    private void ComboTypeElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTypeElementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboTypeElementActionPerformed
+
+    private void jCheckBoxCustomElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCustomElementActionPerformed
+        if(jCheckBoxCustomElement.isSelected()){
+            
+            System.out.println("checked");    
+            
+            InputTimeTemp.setEnabled(true);
+            ComboTypeTime.setEnabled(true);
+            jLabel18.setEnabled(true);
+            
+            jLabel14.setEnabled(false);
+            ComboTypeElement.setEnabled(false);
+            
+        }else{
+            System.out.println("unchecked");
+            
+            InputTimeTemp.setEnabled(false);
+            ComboTypeTime.setEnabled(false);
+            jLabel18.setEnabled(false);
+                        
+            jLabel14.setEnabled(true);
+            ComboTypeElement.setEnabled(true);
+        }
+        
+        
+        
+    }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
 
     /**
      * @param args the command line arguments
@@ -777,12 +878,13 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JButton CalculateSelected1;
     private javax.swing.JComboBox<String> ComboType;
     private javax.swing.JComboBox<String> ComboTypeElement;
+    private javax.swing.JComboBox<String> ComboTypeTime;
     private javax.swing.JPanel GraphPanel;
     private javax.swing.JPanel GraphPanelSimulator;
     private javax.swing.JTextField InputDices;
     private javax.swing.JTextField InputQuantity;
     private javax.swing.JTextField InputSides;
-    private javax.swing.JTextField InputYearsTemp;
+    private javax.swing.JTextField InputTimeTemp;
     private javax.swing.JButton JButtonSimulate;
     private javax.swing.JLabel LabelResult;
     private javax.swing.JTextField TextFinalDices;
@@ -794,6 +896,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButtonClearDice;
     private javax.swing.JButton jButtonRollDice;
+    private javax.swing.JCheckBox jCheckBoxCustomElement;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -802,6 +905,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -825,11 +929,11 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     @Override
     public void chartMouseClicked(ChartMouseEvent cme) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Click not supported yet, should choose the data in the Decaimento table"); 
     }
 
     @Override
-    public void chartMouseMoved(ChartMouseEvent event) {
+    public void chartMouseMoved(ChartMouseEvent event) {//keep track of mouse for X and Y guides
         Rectangle2D dataArea = this.chartPanel.getScreenDataArea();
         JFreeChart chart = event.getChart();
         XYPlot plot = (XYPlot) chart.getPlot();

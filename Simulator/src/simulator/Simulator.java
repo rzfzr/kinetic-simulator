@@ -23,7 +23,7 @@ public class Simulator {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic he   re
+        // TODO code application logic here
     }
 
     public class Data {
@@ -38,7 +38,7 @@ public class Simulator {
 
     }
 
-    public String[] getDataCSV() {
+    public String[] getDataCSV(int col) {
 
         //File directory = new File("./");//System.out.println(directory.getAbsolutePath());
         File csv = new File("../acervo.csv");
@@ -54,7 +54,7 @@ public class Simulator {
             while (scan.hasNext()) {
                 line = scan.nextLine();
                 String[] item = line.split(",");
-                arr[i] = item[0];i++;//item address is the column
+                arr[i] = item[col];i++;//item address is the column
 //                System.out.println(item[1]);
             }
             return arr;

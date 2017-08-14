@@ -1,11 +1,11 @@
-name,value
-Uranium,123
-Nicontine,44444.444
-Antibiotic X,9000
-Gold
-Silver
-Platinum
-Insulin
-Ozone
-Mineral Oil
-Olive Oil
+name,value,type
+Uranium,123,anos
+Nicotina,4444,dias
+Antibiotico X,9000,minutos
+Antibiotico Y,989898,anos
+Ouro,9,minutos
+Prata,10,anos
+Platinum,11,dias
+Insulina,22,dias
+Ozone,33,anos
+Oleo Mineral,44,minutos
