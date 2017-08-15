@@ -10,7 +10,9 @@ import javax.swing.DefaultListModel;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
@@ -47,26 +49,49 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     Simulator sim;
     Simulator.Data data;
-    
+
     public String[] HLValues;//data
     public String[] HLTypes;
-    
-    public void myInitComponents() {        
+
+    public void myInitComponents() {
         sim = new Simulator();
         ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gramas", "Moleculas", "Unidades"}));
-        ComboTypeTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Anos", "Meses", "Dias","Horas","Minutos"}));
+        ComboTypeTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Anos", "Meses", "Dias", "Horas", "Minutos"}));
 
-        
-        
         ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV(0)));
         HLValues = sim.getDataCSV(1);
         HLTypes = sim.getDataCSV(2);
+
+        InputTimeTemp.setEnabled(false);
+        ComboTypeTime.setEnabled(false);
+        jLabel18.setEnabled(false);
         
-                    InputTimeTemp.setEnabled(false);
-            ComboTypeTime.setEnabled(false);
-            jLabel18.setEnabled(false);
+        CalculateSelected.setEnabled(false);
+
         
         
+//        jList1.getSelectionModel().setSelectionInterval(0, 3);
+//jList1.addSelectionInterval(0,2);
+        
+        jList1.setSelectionModel(new DefaultListSelectionModel() {
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+                if (super.isSelectedIndex(index0)) {//is selected so deselect
+                    super.removeSelectionInterval(index0, index1);
+
+                    CalculateSelected.setEnabled(false);
+                } else {//if is not selected so select it
+                    if(jList1.getSelectedValuesList().size()<2){
+                        super.addSelectionInterval(index0, index1);
+                        if(jList1.getSelectedValuesList().size()==2){
+                            CalculateSelected.setEnabled(true);
+                        }   
+                    }
+                }
+            }
+        });
+//            
+//            jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 //        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
 
     }
@@ -594,7 +619,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void jButtonClearDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearDiceActionPerformed
         ClearDiceScreen();
     }//GEN-LAST:event_jButtonClearDiceActionPerformed
-    void ClearDiceScreen(){        
+    void ClearDiceScreen() {
         // Clear everything
         value_p.setText(" ");
 
@@ -605,10 +630,10 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         lm = new DefaultListModel();
         jList1.setModel(lm);
 
-        
         System.out.println("Cleared Dice Screen");
-    } 
-    void ClearSimulateScreen(){        
+    }
+
+    void ClearSimulateScreen() {
         // Clear everything
         value_p1.setText(" ");
 
@@ -619,10 +644,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         lm = new DefaultListModel();
         jList2.setModel(lm);
 
-        
         System.out.println("Cleared Simulator Screen");
-    }      
-        
+    }
+
     private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
 
         int dice = Integer.valueOf(InputDices.getText()); //number of dice
@@ -631,87 +655,80 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         double theoric = Math.log10(2) / Math.log10((double) sides / ((double) sides - 1)); //meia vida teorica
         value_p.setText(Double.toString(theoric));
 
-        
         data = sim.CalculateDice(dice, sides);
-        GraphIt(GraphPanel,data.s1);//plot all the points
+        GraphIt(GraphPanel, data.s1);//plot all the points
         jList1.setModel(data.lm);//after this the list is updated when we add or remove to the model
 
-        System.out.println("Rolled "+dice+" "+sides+" sided dice");
+        System.out.println("Rolled " + dice + " " + sides + " sided dice");
     }//GEN-LAST:event_jButtonRollDiceActionPerformed
     private void GraphIt(JPanel panel, XYSeries s) {//settings to mess with the graph styling
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(s);
 
-        
-        if(panel==GraphPanel){
-            
-        final JFreeChart chart = ChartFactory.createXYLineChart(
-                "Dados", // chart title
-                "Category", // domain axis label
-                "Value", // range axis label
-                dataset, // data
-                PlotOrientation.VERTICAL,
-                true, // include legend
-                true,
-                false
-        );
+        if (panel == GraphPanel) {
 
-        final XYPlot plot = chart.getXYPlot();
-        final NumberAxis domainAxis = new NumberAxis("Jogadas");
-        final NumberAxis rangeAxis = new NumberAxis("Dados Restante");
-        
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(rangeAxis);
-        chart.setBackgroundPaint(Color.white);
-        plot.setOutlinePaint(Color.black);
+            final JFreeChart chart = ChartFactory.createXYLineChart(
+                    "Dados", // chart title
+                    "Category", // domain axis label
+                    "Value", // range axis label
+                    dataset, // data
+                    PlotOrientation.VERTICAL,
+                    true, // include legend
+                    true,
+                    false
+            );
 
-        rangeAxis.setAutoRangeIncludesZero(false);
-        plot.setOrientation(PlotOrientation.VERTICAL);
+            final XYPlot plot = chart.getXYPlot();
+            final NumberAxis domainAxis = new NumberAxis("Jogadas");
+            final NumberAxis rangeAxis = new NumberAxis("Dados Restante");
+
+            plot.setDomainAxis(domainAxis);
+            plot.setRangeAxis(rangeAxis);
+            chart.setBackgroundPaint(Color.white);
+            plot.setOutlinePaint(Color.black);
+
+            rangeAxis.setAutoRangeIncludesZero(false);
+            plot.setOrientation(PlotOrientation.VERTICAL);
 //        final ChartPanel 
-        chartPanel = new ChartPanel(chart);
-        
-        
-        }else if(panel==GraphPanelSimulator){
-                        
-        final JFreeChart chart = ChartFactory.createXYLineChart(
-                "Quantidade", // chart title
-                "Category", // domain axis label
-                "Value", // range axis label
-                dataset, // data
-                PlotOrientation.VERTICAL,
-                true, // include legend
-                true,
-                false
-        );
+            chartPanel = new ChartPanel(chart);
 
-        final XYPlot plot = chart.getXYPlot();
-        
-        NumberAxis domainAxis;
-                
-        if(jCheckBoxCustomElement.isSelected()){
-            domainAxis = new NumberAxis(ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()));//TODO: make dinamic, years/hours/minutes
-        }else{
-            domainAxis = new NumberAxis(HLTypes[ComboTypeElement.getSelectedIndex()]);//TODO: make dinamic, years/hours/minutes
-        
-        }
-        
-        final NumberAxis rangeAxis = new NumberAxis("Quantidade Restante");
-        
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(rangeAxis);
-        chart.setBackgroundPaint(Color.white);
-        plot.setOutlinePaint(Color.black);
+        } else if (panel == GraphPanelSimulator) {
 
-        rangeAxis.setAutoRangeIncludesZero(false);
-        plot.setOrientation(PlotOrientation.VERTICAL);
+            final JFreeChart chart = ChartFactory.createXYLineChart(
+                    "Quantidade", // chart title
+                    "Category", // domain axis label
+                    "Value", // range axis label
+                    dataset, // data
+                    PlotOrientation.VERTICAL,
+                    true, // include legend
+                    true,
+                    false
+            );
+
+            final XYPlot plot = chart.getXYPlot();
+
+            NumberAxis domainAxis;
+
+            if (jCheckBoxCustomElement.isSelected()) {
+                domainAxis = new NumberAxis(ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()));//TODO: make dinamic, years/hours/minutes
+            } else {
+                domainAxis = new NumberAxis(HLTypes[ComboTypeElement.getSelectedIndex()]);//TODO: make dinamic, years/hours/minutes
+
+            }
+
+            final NumberAxis rangeAxis = new NumberAxis("Quantidade Restante");
+
+            plot.setDomainAxis(domainAxis);
+            plot.setRangeAxis(rangeAxis);
+            chart.setBackgroundPaint(Color.white);
+            plot.setOutlinePaint(Color.black);
+
+            rangeAxis.setAutoRangeIncludesZero(false);
+            plot.setOrientation(PlotOrientation.VERTICAL);
 //        final ChartPanel 
-        chartPanel = new ChartPanel(chart);
-            
-            
-            
-            
-            
+            chartPanel = new ChartPanel(chart);
+
         }
 
         panel.removeAll();
@@ -758,11 +775,26 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     CalculateDialog calcDialog;
     private void CalculateSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelectedActionPerformed
 
+        
+        
+        System.out.println("Selected = "+ jList1.getSelectedValuesList());
+        
+        System.out.println("first element = "+ jList1.getSelectedIndex());
+        
+        
+        String elem1= jList1.getSelectedValue().toString();
+        
+        System.out.println(elem1);
+        
+        
         calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
         calcDialog.setLocationRelativeTo(this);
+
+        
+//        calcDialog.TextInicialDices.setText("teste");
+        
+
         calcDialog.setVisible(true);
-
-
     }//GEN-LAST:event_CalculateSelectedActionPerformed
     private void CalculateSelected1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelected1ActionPerformed
         // TODO add your handling code here:
@@ -776,44 +808,39 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_jButton5ActionPerformed
     private void JButtonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSimulateActionPerformed
         //Simular
-        
+
         int quantity = Integer.valueOf(InputQuantity.getText()); //quantity of grams/molecule etc
         int time;//half life time        
-        
-        System.out.println("Simulated "+quantity+" "+ComboType.getItemAt(ComboType.getSelectedIndex())+" of ");
-        
-        if(jCheckBoxCustomElement.isSelected()){//get custom element from user
+
+        System.out.println("Simulated " + quantity + " " + ComboType.getItemAt(ComboType.getSelectedIndex()) + " of ");
+
+        if (jCheckBoxCustomElement.isSelected()) {//get custom element from user
             time = Integer.valueOf(InputTimeTemp.getText());
-            System.out.println("Elemento Customizado" + " (MV de "+time+" "+ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex())+")");
-        }else{//get choosen element from csv file
+            System.out.println("Elemento Customizado" + " (MV de " + time + " " + ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()) + ")");
+        } else {//get choosen element from csv file
             time = Integer.valueOf(HLValues[ComboTypeElement.getSelectedIndex()]);
-            
-            System.out.println(ComboTypeElement.getItemAt(ComboTypeElement.getSelectedIndex())+" (MV de "+
-                HLValues[ComboTypeElement.getSelectedIndex()]+" "+HLTypes[ComboTypeElement.getSelectedIndex()]+")");
-        
-            
+
+            System.out.println(ComboTypeElement.getItemAt(ComboTypeElement.getSelectedIndex()) + " (MV de "
+                    + HLValues[ComboTypeElement.getSelectedIndex()] + " " + HLTypes[ComboTypeElement.getSelectedIndex()] + ")");
+
         }
         CalculatedHalfLife(time);
-        
-        
+
         data = sim.CalculateDice(quantity, time);
-        GraphIt(GraphPanelSimulator,data.s1);//plot all the points
+        GraphIt(GraphPanelSimulator, data.s1);//plot all the points
         jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
-        
-        
+
 
     }//GEN-LAST:event_JButtonSimulateActionPerformed
 
-    private void CalculatedHalfLife(int time){
-        
-        double theoric = Math.log10(2) / Math.log10((double) time / ((double) time - 1)); 
+    private void CalculatedHalfLife(int time) {
+
+        double theoric = Math.log10(2) / Math.log10((double) time / ((double) time - 1));
         value_p1.setText(Double.toString(theoric));
 
-        
     }
-    
-    
-    
+
+
     private void InputQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputQuantityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InputQuantityActionPerformed
@@ -831,30 +858,29 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_ComboTypeElementActionPerformed
 
     private void jCheckBoxCustomElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCustomElementActionPerformed
-        if(jCheckBoxCustomElement.isSelected()){
-            
-            System.out.println("Checked custom element");    
-            
+        if (jCheckBoxCustomElement.isSelected()) {
+
+            System.out.println("Checked custom element");
+
             InputTimeTemp.setEnabled(true);
             ComboTypeTime.setEnabled(true);
             jLabel18.setEnabled(true);
-            
+
             jLabel14.setEnabled(false);
             ComboTypeElement.setEnabled(false);
-            
-        }else{
+
+        } else {
             System.out.println("Unchecked custom element");
-            
+
             InputTimeTemp.setEnabled(false);
             ComboTypeTime.setEnabled(false);
             jLabel18.setEnabled(false);
-                        
+
             jLabel14.setEnabled(true);
             ComboTypeElement.setEnabled(true);
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
 
     /**
@@ -945,7 +971,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     @Override
     public void chartMouseClicked(ChartMouseEvent cme) {
-        System.out.println("Click not supported yet, should choose the data in the table instead"); 
+        System.out.println("Click not supported yet, should choose the data in the table instead");
     }
 
     @Override

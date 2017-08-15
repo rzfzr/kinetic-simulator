@@ -43,8 +43,18 @@ public class CalculateDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         TextInicialRoll.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        TextInicialRoll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextInicialRollActionPerformed(evt);
+            }
+        });
 
         TextInicialDices.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        TextInicialDices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextInicialDicesActionPerformed(evt);
+            }
+        });
 
         TextFinalRoll.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -171,6 +181,14 @@ public class CalculateDialog extends javax.swing.JDialog {
         LabelResult.setText(Double.toString(result));
     }//GEN-LAST:event_ButtonCalculateActionPerformed
 
+    private void TextInicialRollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextInicialRollActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextInicialRollActionPerformed
+
+    private void TextInicialDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextInicialDicesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextInicialDicesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -216,10 +234,10 @@ public class CalculateDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCalculate;
     private javax.swing.JLabel LabelResult;
-    private javax.swing.JTextField TextFinalDices;
-    private javax.swing.JTextField TextFinalRoll;
-    private javax.swing.JTextField TextInicialDices;
-    private javax.swing.JTextField TextInicialRoll;
+    public javax.swing.JTextField TextFinalDices;
+    public javax.swing.JTextField TextFinalRoll;
+    public javax.swing.JTextField TextInicialDices;
+    public javax.swing.JTextField TextInicialRoll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
