@@ -83,16 +83,37 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jList1.setSelectionModel(new DefaultListSelectionModel() {
             @Override
             public void setSelectionInterval(int index0, int index1) {
+                
+                int pos[] = jList1.getSelectedIndices();
+                
+                System.out.println("Selected: "+index0 + " and "+index1);//why 2 ??
+                
                 if (super.isSelectedIndex(index0)) {//is selected so deselect
                     super.removeSelectionInterval(index0, index1);
 
                     CalculateSelected.setEnabled(false);
                 } else {//if is not selected so select it
-                    if(jList1.getSelectedValuesList().size()<2){
-                        super.addSelectionInterval(index0, index1);
+                    if(jList1.getSelectedValuesList().size()<2){//less than 2 so just add
+                        super.addSelectionInterval(index0, index1);                        
                         if(jList1.getSelectedValuesList().size()==2){
                             CalculateSelected.setEnabled(true);
                         }   
+                    }else{//more than 2, add but delete one
+                        if(index0>pos[1]){//more than last so delete last
+                            super.removeSelectionInterval(pos[1], pos[1]);
+                        }else if(index0<pos[0]){//less than first so delete first                            
+                            super.removeSelectionInterval(pos[0], pos[0]);                            
+                        }else{  //its between them so check which is closer  
+                                    //pos0 -- index -- pos1                            
+                            if(index0-pos[0]<pos[1]-index0){//closer to first
+                                super.removeSelectionInterval(pos[0], pos[0]);      
+                            }else{
+                                super.removeSelectionInterval(pos[1], pos[1]);      
+                            }
+                            
+                            
+                        }
+                        super.addSelectionInterval(index0, index1);//after deleting one, add new
                     }
                 }
             }
@@ -795,17 +816,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         String[] ini = (data.lm.elementAt(pos[0]).toString()).split("=");
         String[] fin = (data.lm.elementAt(pos[1]).toString()).split("=");
         
-        
-        
         System.out.println("Selected Inicial = " + ini[0]+" "+ini[1]);//inicial roll and dice
         System.out.println("Selected Final = " + fin[0]+" "+fin[1]);//final roll and dice
 
-
-        
-        
-        
-        
-        
         
         calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
         calcDialog.setLocationRelativeTo(this);
