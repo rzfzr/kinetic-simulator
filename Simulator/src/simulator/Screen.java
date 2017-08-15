@@ -686,7 +686,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         );
 
         final XYPlot plot = chart.getXYPlot();
-        final NumberAxis domainAxis = new NumberAxis(ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()));//TODO: make dinamic, years/hours/minutes
+        
+        NumberAxis domainAxis;
+                
+        if(jCheckBoxCustomElement.isSelected()){
+            domainAxis = new NumberAxis(ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()));//TODO: make dinamic, years/hours/minutes
+        }else{
+            domainAxis = new NumberAxis(HLTypes[ComboTypeElement.getSelectedIndex()]);//TODO: make dinamic, years/hours/minutes
+        
+        }
+        
         final NumberAxis rangeAxis = new NumberAxis("Quantidade Restante");
         
         plot.setDomainAxis(domainAxis);
@@ -768,16 +777,15 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void JButtonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSimulateActionPerformed
         //Simular
         
-        int quantity = Integer.valueOf(InputQuantity.getText()); 
-        int time;
-        
+        int quantity = Integer.valueOf(InputQuantity.getText()); //quantity of grams/molecule etc
+        int time;//half life time        
         
         System.out.println("Simulated "+quantity+" "+ComboType.getItemAt(ComboType.getSelectedIndex())+" of ");
         
-        if(jCheckBoxCustomElement.isSelected()){
+        if(jCheckBoxCustomElement.isSelected()){//get custom element from user
             time = Integer.valueOf(InputTimeTemp.getText());
             System.out.println("Elemento Customizado" + " (MV de "+time+" "+ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex())+")");
-        }else{
+        }else{//get choosen element from csv file
             time = Integer.valueOf(HLValues[ComboTypeElement.getSelectedIndex()]);
             
             System.out.println(ComboTypeElement.getItemAt(ComboTypeElement.getSelectedIndex())+" (MV de "+
@@ -785,10 +793,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         
             
         }
-
-        double theoric = Math.log10(2) / Math.log10((double) time / ((double) time - 1)); 
-        value_p1.setText(Double.toString(theoric));
-
+        CalculatedHalfLife(time);
+        
         
         data = sim.CalculateDice(quantity, time);
         GraphIt(GraphPanelSimulator,data.s1);//plot all the points
@@ -798,6 +804,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     }//GEN-LAST:event_JButtonSimulateActionPerformed
 
+    private void CalculatedHalfLife(int time){
+        
+        double theoric = Math.log10(2) / Math.log10((double) time / ((double) time - 1)); 
+        value_p1.setText(Double.toString(theoric));
+
+        
+    }
+    
+    
+    
     private void InputQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputQuantityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InputQuantityActionPerformed
@@ -817,7 +833,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void jCheckBoxCustomElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCustomElementActionPerformed
         if(jCheckBoxCustomElement.isSelected()){
             
-            System.out.println("checked");    
+            System.out.println("Checked custom element");    
             
             InputTimeTemp.setEnabled(true);
             ComboTypeTime.setEnabled(true);
@@ -827,7 +843,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             ComboTypeElement.setEnabled(false);
             
         }else{
-            System.out.println("unchecked");
+            System.out.println("Unchecked custom element");
             
             InputTimeTemp.setEnabled(false);
             ComboTypeTime.setEnabled(false);
@@ -929,7 +945,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     @Override
     public void chartMouseClicked(ChartMouseEvent cme) {
-        System.out.println("Click not supported yet, should choose the data in the Decaimento table"); 
+        System.out.println("Click not supported yet, should choose the data in the table instead"); 
     }
 
     @Override
