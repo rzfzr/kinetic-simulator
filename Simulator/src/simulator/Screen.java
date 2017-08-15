@@ -10,6 +10,7 @@ import javax.swing.DefaultListModel;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -26,6 +27,12 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
+
+
+import javafx.util.Pair;
+
+import javax.swing.DefaultListModel;
+import org.jfree.data.xy.XYSeries;
 
 /**
  *
@@ -647,6 +654,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         System.out.println("Cleared Simulator Screen");
     }
 
+    
+    
     private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
 
         int dice = Integer.valueOf(InputDices.getText()); //number of dice
@@ -775,23 +784,34 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     CalculateDialog calcDialog;
     private void CalculateSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelectedActionPerformed
 
+        int pos[] = jList1.getSelectedIndices();
         
         
-        System.out.println("Selected = "+ jList1.getSelectedValuesList());
+        List<String> ss =jList1.getSelectedValuesList();
         
-        System.out.println("first element = "+ jList1.getSelectedIndex());
+//        System.out.println(pos[0]+" and "+ pos[1]);
+        
+        String fin = data.lm.elementAt(pos[1]).toString();
+        
+        String[] ini = (data.lm.elementAt(pos[0]).toString()).split("=");
         
         
-        String elem1= jList1.getSelectedValue().toString();
         
-        System.out.println(elem1);
+        System.out.println("Selected Inicial = " + ini[0]);
+        System.out.println("Selected Final = " + fin);
+
+
+        
+        
+        
+        
         
         
         calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
         calcDialog.setLocationRelativeTo(this);
 
         
-//        calcDialog.TextInicialDices.setText("teste");
+        calcDialog.TextInicialDices.setText("teste");
         
 
         calcDialog.setVisible(true);
