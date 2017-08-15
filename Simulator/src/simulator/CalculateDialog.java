@@ -167,6 +167,14 @@ public class CalculateDialog extends javax.swing.JDialog {
 
     private void ButtonCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCalculateActionPerformed
 
+        Calculate();
+
+    }//GEN-LAST:event_ButtonCalculateActionPerformed
+
+    
+    public void Calculate(){
+        
+
         //Calculate rolls and dices
         //original
         //((jogfin-jogini)*log10(2))/(log10(dadoini/dadofin));
@@ -179,8 +187,10 @@ public class CalculateDialog extends javax.swing.JDialog {
         double result = ((finRoll - inRoll) * Math.log10(2)) / (Math.log10(inDices / finDices));
 
         LabelResult.setText(Double.toString(result));
-    }//GEN-LAST:event_ButtonCalculateActionPerformed
-
+        
+        
+        
+    }
     private void TextInicialRollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextInicialRollActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextInicialRollActionPerformed

@@ -791,14 +791,14 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         
 //        System.out.println(pos[0]+" and "+ pos[1]);
         
-        String fin = data.lm.elementAt(pos[1]).toString();
         
         String[] ini = (data.lm.elementAt(pos[0]).toString()).split("=");
+        String[] fin = (data.lm.elementAt(pos[1]).toString()).split("=");
         
         
         
-        System.out.println("Selected Inicial = " + ini[0]);
-        System.out.println("Selected Final = " + fin);
+        System.out.println("Selected Inicial = " + ini[0]+" "+ini[1]);//inicial roll and dice
+        System.out.println("Selected Final = " + fin[0]+" "+fin[1]);//final roll and dice
 
 
         
@@ -809,10 +809,14 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         
         calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
         calcDialog.setLocationRelativeTo(this);
-
         
-        calcDialog.TextInicialDices.setText("teste");
+        calcDialog.TextInicialRoll.setText(ini[0]);
+        calcDialog.TextInicialDices.setText(ini[1]);
+        calcDialog.TextFinalRoll.setText(fin[0]);
+        calcDialog.TextFinalDices.setText(fin[1]);
         
+        
+        calcDialog.Calculate();
 
         calcDialog.setVisible(true);
     }//GEN-LAST:event_CalculateSelectedActionPerformed
