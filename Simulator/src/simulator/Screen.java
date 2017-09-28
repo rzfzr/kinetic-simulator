@@ -32,6 +32,7 @@ import org.jfree.ui.RectangleEdge;
 import javafx.util.Pair;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import org.jfree.data.xy.XYSeries;
 
 /**
@@ -153,6 +154,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jLabel18 = new javax.swing.JLabel();
         ComboTypeTime = new javax.swing.JComboBox<>();
         jCheckBoxCustomElement = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -290,6 +292,13 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -307,7 +316,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(value_p1))
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(JButtonSimulate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -323,7 +331,10 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBoxCustomElement))
+                    .addComponent(jCheckBoxCustomElement)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton1)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -377,7 +388,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CalculateSelected1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Meia Vida Quimica", jPanel1);
@@ -920,6 +933,13 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFrame janela = new TabelaP();
+        janela.setVisible(true);
+        janela.setLocationRelativeTo(null);
+                                            
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -970,6 +990,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JTextField TextFinalRoll;
     private javax.swing.JTextField TextInicialDices;
     private javax.swing.JTextField TextInicialRoll;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
