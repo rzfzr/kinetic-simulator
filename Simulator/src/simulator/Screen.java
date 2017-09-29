@@ -820,9 +820,13 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         int pos[] = jList1.getSelectedIndices();
         
+        //meia vida e vida media
         
-        List<String> ss =jList1.getSelectedValuesList();
         
+        List<String> ss = jList1.getSelectedValuesList();
+        
+//        Pair p = (Pair)ss.get(0);
+//        System.out.println(p);
 //        System.out.println(pos[0]+" and "+ pos[1]);
         
         
