@@ -938,9 +938,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame janela = new TabelaP();
-        janela.setVisible(true);
-        janela.setLocationRelativeTo(null);
+//        JFrame janela = new TabelaP();
+//        janela.setVisible(true);
+//        janela.setLocationRelativeTo(null);
                                             
     }//GEN-LAST:event_jButton1ActionPerformed
 

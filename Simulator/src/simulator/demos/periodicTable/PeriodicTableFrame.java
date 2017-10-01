@@ -1,8 +1,3 @@
-/**
- * 
- */
-package periodicTable;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -50,12 +45,6 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 	private static final Color actinideBlue = new Color(0, 55, 55);
 	private static final Color textWhite = new Color(255, 255, 255);
 	private static final Color backgroundBlack = new Color(0, 0, 0);
-	private NavBar mnuBar = new NavBar();
-	private JMenu file = new JMenu("File");
-	private NavMenuItem fileExit = new NavMenuItem("Exit");
-	private JMenu options = new JMenu("Options");
-	private JMenu help = new JMenu("Help");
-	private JMenuItem helpAbout = new JMenuItem("About");
 	public int switchVal = 1;
 
 	PeriodicTableFrame() {
@@ -66,23 +55,6 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 		UIManager.put("MenuItem.background", backgroundBlack);
 		UIManager.put("MenuItem.foreground", textWhite);
 		setLabels();
-		setJMenuBar(mnuBar);
-		mnuBar.setColor(backgroundBlack);
-		mnuBar.setForeground(textWhite);
-		mnuBar.add(file);
-		file.setForeground(textWhite);
-		file.add(fileExit);
-		mnuBar.add(options);
-		options.setForeground(textWhite);
-		mnuBar.add(help);
-		help.setForeground(textWhite);
-		help.add(helpAbout);
-
-		fileExit.addActionListener(this);
-		helpAbout.addActionListener(this);
-
-		fileExit.setActionCommand("Exit");
-		helpAbout.setActionCommand("About");
 
 		for (int i = 0; i < 162; i++) {
 			elementButtons[i] = new JButton(elementButtonLabels[i]);
@@ -463,18 +435,6 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		String arg = e.getActionCommand();
-		if (arg == "Exit")
-			System.exit(0);
-
-		if (arg == "About") {
-			JOptionPane.showMessageDialog(null,
-					"This is a free Periodic Table of the Elements.  Please ask before using my code." + "\n"
-							+ "Credits:" + "\n" + "~GitHub for hosting my repository." + "\n"
-							+ "~Merck KGaA for providing a comprehensive database of information in their iOS app EMD PTE"
-							+ "\n" + "~All of my CS professors at ONU for giving me the knowledge needed to code.");
-		}
-
 	}
 
 	public static void main(String[] args) {
@@ -486,13 +446,12 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 				}
 			}
 		} catch (Exception e) {
-			// If Nimbus is not available, you can set the GUI to another look
-			// and feel.
+			//no theme
 		}
 
 		PeriodicTableFrame f = new PeriodicTableFrame();
 		f.setBounds(0, 0, 1366, 768);
-		f.setTitle("Periodic Table of the Elements");
+		f.setTitle("Tabela Periodica");
 		f.setVisible(true);
 	}
 }
