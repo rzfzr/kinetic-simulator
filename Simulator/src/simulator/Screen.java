@@ -1,5 +1,5 @@
 package simulator;
-
+    
 import org.jfree.chart.axis.NumberAxis;
 import java.awt.BorderLayout;
 import org.jfree.chart.plot.PlotOrientation;
@@ -28,6 +28,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 
+//import simulator.demos.periodicTable.*;
 
 import javafx.util.Pair;
 
@@ -938,10 +939,10 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        JFrame janela = new TabelaP();
-//        janela.setVisible(true);
-//        janela.setLocationRelativeTo(null);
-                                            
+        JFrame janela = new PeriodicTableFrame();
+        janela.setVisible(true);
+        //janela.setLocationRelativeTo(null);
+        janela.setExtendedState(janela.getExtendedState()|JFrame.MAXIMIZED_BOTH );                                    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
