@@ -942,7 +942,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         JFrame janela = new PeriodicTableFrame();
         janela.setVisible(true);
         //janela.setLocationRelativeTo(null);
-        janela.setExtendedState(janela.getExtendedState()|JFrame.MAXIMIZED_BOTH );                                    
+        //janela.setExtendedState(janela.getExtendedState()|JFrame. );
+        janela.setSize(1500, 700);
+        janela.setLocationRelativeTo(null);                                    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

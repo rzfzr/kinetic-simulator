@@ -118,19 +118,25 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 		}
 		add(displayPanel, BorderLayout.CENTER);
 
-		for (int i = 0; i < 162; i++) {
+                for (int i = 0; i < 162; i++) {
+                    final int i2 = i;    //need to create an auxiliar "i" to make it "final" to use it in this instance
 			anotherGenericInt = i;
 			if (i != 92 && i != 110) {
 				elementButtons[i].addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent ev) {
 						genericInt = anotherGenericInt;
 						if (genericInt == anotherGenericInt) {
-							setVisible(false);
+							//setVisible(false);     hide the main periodic table
 							Frame frame = new Frame();
 							JPanel panel = new JPanel();
 							JPanel panel2 = new JPanel();
 							JScrollPane scroll = new JScrollPane();
-							frame.setBounds(0, 0, 500, 500);
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        //frame.setLocation(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y);
+							frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 500, 500);
 							frame.setVisible(true);
 							panel.setLayout(new FlowLayout());
 							panel2.setLayout(new FlowLayout());
