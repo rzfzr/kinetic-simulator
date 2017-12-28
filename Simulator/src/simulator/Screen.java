@@ -1,5 +1,6 @@
 package simulator;
     
+import simulator.SaveFile;
 import org.jfree.chart.axis.NumberAxis;
 import java.awt.BorderLayout;
 import org.jfree.chart.plot.PlotOrientation;
@@ -10,7 +11,10 @@ import javax.swing.DefaultListModel;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -171,7 +175,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         value_p = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        SaveDice = new javax.swing.JButton();
         CalculateSelected = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         TextInicialRoll = new javax.swing.JTextField();
@@ -457,10 +461,10 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         value_p.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        jButton3.setText("Salvar Resultados");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        SaveDice.setText("Salvar Resultados");
+        SaveDice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                SaveDiceActionPerformed(evt);
             }
         });
 
@@ -483,7 +487,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                     .addComponent(InputSides)
                     .addComponent(InputDices)
                     .addComponent(jLabel8)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SaveDice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButtonRollDice)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -529,7 +533,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                             .addComponent(jButtonRollDice)
                             .addComponent(jButtonClearDice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(SaveDice))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -690,19 +694,24 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }
 
     
+    int dice;
+    int sides;
     
+    double theoric;
     private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
 
-        int dice = Integer.valueOf(InputDices.getText()); //number of dice
-        int sides = Integer.valueOf(InputSides.getText()); //number of sides
+        dice = Integer.valueOf(InputDices.getText()); //number of dice
+       sides = Integer.valueOf(InputSides.getText()); //number of sides
 
-        double theoric = Math.log10(2) / Math.log10((double) sides / ((double) sides - 1)); //meia vida teorica
+        theoric = Math.log10(2) / Math.log10((double) sides / ((double) sides - 1)); //meia vida teorica
         value_p.setText(Double.toString(theoric));
 
         data = sim.CalculateDice(dice, sides);
         GraphIt(GraphPanel, data.s1);//plot all the points
         jList1.setModel(data.lm);//after this the list is updated when we add or remove to the model
 
+        
+        
         System.out.println("Rolled " + dice + " " + sides + " sided dice");
     }//GEN-LAST:event_jButtonRollDiceActionPerformed
     private void GraphIt(JPanel panel, XYSeries s) {//settings to mess with the graph styling
@@ -813,9 +822,19 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void InputDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputDicesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InputDicesActionPerformed
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void SaveDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDiceActionPerformed
+
+        SaveFile sv = new SaveFile();
+        try {
+            sv.WriteData(dice,sides,theoric, data);
+            
+            
+            // TODO add your handling code here:
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_SaveDiceActionPerformed
     CalculateDialog calcDialog;
     private void CalculateSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelectedActionPerformed
 
@@ -993,12 +1012,12 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JTextField InputTimeTemp;
     private javax.swing.JButton JButtonSimulate;
     private javax.swing.JLabel LabelResult;
+    private javax.swing.JButton SaveDice;
     private javax.swing.JTextField TextFinalDices;
     private javax.swing.JTextField TextFinalRoll;
     private javax.swing.JTextField TextInicialDices;
     private javax.swing.JTextField TextInicialRoll;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButtonClearDice;

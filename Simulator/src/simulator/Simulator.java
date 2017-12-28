@@ -33,7 +33,7 @@ public class Simulator {
 
         Data(XYSeries s1, DefaultListModel lm) {
             this.s1 = s1;
-            this.lm = lm;
+            this.lm = lm;//actual pair of values "roll=remaining"
         }
 
     }

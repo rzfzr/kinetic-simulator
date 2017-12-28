@@ -7,6 +7,7 @@ package simulator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 /**
  *
  * @author a120127
@@ -14,28 +15,29 @@ import java.io.PrintWriter;
 public class SaveFile {
     
     public static void main(String[]args) throws FileNotFoundException{
-        WriteData();
     }
-    public static void WriteData() throws FileNotFoundException{
+    public static  void WriteData(int dice,int sides,double theoric, Simulator.Data data) throws FileNotFoundException {
         
-        PrintWriter pw = new PrintWriter(new File("writeTeste.csv"));
+        PrintWriter pw = new PrintWriter(new File("UltimoSimuladoDados.csv"));
         StringBuilder sb = new StringBuilder();
-        sb.append("id");
-        sb.append(',');
-        sb.append("Name");
-        sb.append('\n');
-
-        sb.append("1");
-        sb.append(',');
-        sb.append(" Ghimire");
-        sb.append('\n');
+        sb.append("Simulado de "+dice +" dados de "+sides+ " lados (P = "+theoric+").");
+        sb.append("\n");
+        sb.append("Horario e data: "+LocalDateTime.now());
+        
+//        sb.append(data.lm);
+//        sb.append("\n");
+        for(int i=0;i<data.lm.getSize();i++){
+        sb.append("\n");
+            sb.append(data.lm.elementAt(i));
+            
+        }
+//        sb.append(data.s1.toArray());
 
         pw.write(sb.toString());
         pw.close();
-        System.out.println("done!");
+        System.out.println("Saved!");
         
-        
-    }
+      }
     
     
     
