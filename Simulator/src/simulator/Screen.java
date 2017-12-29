@@ -1,5 +1,5 @@
 package simulator;
-    
+
 import simulator.SaveFile;
 import org.jfree.chart.axis.NumberAxis;
 import java.awt.BorderLayout;
@@ -33,7 +33,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 
 //import simulator.demos.periodicTable.*;
-
 import javafx.util.Pair;
 
 import javax.swing.DefaultListModel;
@@ -78,53 +77,49 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         InputTimeTemp.setEnabled(false);
         ComboTypeTime.setEnabled(false);
         jLabel18.setEnabled(false);
-        
+
         CalculateSelected.setEnabled(false);
 
-        
-        
 //        jList1.getSelectionModel().setSelectionInterval(0, 3);
 //jList1.addSelectionInterval(0,2);
-        
         jList1.setSelectionModel(new DefaultListSelectionModel() {
             @Override
             public void setSelectionInterval(int index0, int index1) {
-                
+
                 int pos[] = jList1.getSelectedIndices();
-                
-                System.out.println("Selected: "+index0 + " and "+index1);//why 2 ??
-                
+
+                System.out.println("Selected: " + index0 + " and " + index1);//why 2 ??
+
                 if (super.isSelectedIndex(index0)) {//is selected so deselect
                     super.removeSelectionInterval(index0, index1);
 
                     CalculateSelected.setEnabled(false);
                 } else {//if is not selected so select it
-                    if(jList1.getSelectedValuesList().size()<2){//less than 2 so just add
-                        super.addSelectionInterval(index0, index1);                        
-                        if(jList1.getSelectedValuesList().size()==2){
+                    if (jList1.getSelectedValuesList().size() < 2) {//less than 2 so just add
+                        super.addSelectionInterval(index0, index1);
+                        if (jList1.getSelectedValuesList().size() == 2) {
                             CalculateSelected.setEnabled(true);
-                        }   
-                    }else{//more than 2, add but delete one
-                        if(index0>pos[1]){//more than last so delete last
+                        }
+                    } else {//more than 2, add but delete one
+                        if (index0 > pos[1]) {//more than last so delete last
                             super.removeSelectionInterval(pos[1], pos[1]);
-                        }else if(index0<pos[0]){//less than first so delete first                            
-                            super.removeSelectionInterval(pos[0], pos[0]);                            
-                        }else{  //its between them so check which is closer  
-                                    //pos0 -- index -- pos1                            
-                            if(index0-pos[0]<pos[1]-index0){//closer to first
-                                super.removeSelectionInterval(pos[0], pos[0]);      
-                            }else{
-                                super.removeSelectionInterval(pos[1], pos[1]);      
+                        } else if (index0 < pos[0]) {//less than first so delete first
+                            super.removeSelectionInterval(pos[0], pos[0]);
+                        } else {  //its between them so check which is closer
+                            //pos0 -- index -- pos1
+                            if (index0 - pos[0] < pos[1] - index0) {//closer to first
+                                super.removeSelectionInterval(pos[0], pos[0]);
+                            } else {
+                                super.removeSelectionInterval(pos[1], pos[1]);
                             }
-                            
-                            
+
                         }
                         super.addSelectionInterval(index0, index1);//after deleting one, add new
                     }
                 }
             }
         });
-//            
+//
 //            jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 //        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
 
@@ -677,6 +672,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void jButtonClearDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearDiceActionPerformed
         ClearDiceScreen();
     }//GEN-LAST:event_jButtonClearDiceActionPerformed
+
     void ClearDiceScreen() {
         // Clear everything
         value_p.setText(" ");
@@ -684,7 +680,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         GraphPanel.removeAll();
         GraphPanel.validate();
 
-        DefaultListModel lm;  //empty model to the list 
+        DefaultListModel lm;  //empty model to the list
         lm = new DefaultListModel();
         jList1.setModel(lm);
 
@@ -698,34 +694,39 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         GraphPanelSimulator.removeAll();
         GraphPanelSimulator.validate();
 
-        DefaultListModel lm;  //empty model to the list 
+        DefaultListModel lm;  //empty model to the list
         lm = new DefaultListModel();
         jList2.setModel(lm);
 
         System.out.println("Cleared Simulator Screen");
     }
 
-    
     int dice;
     int sides;
-    
+
     double theoric;
     private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
 
         dice = Integer.valueOf(InputDices.getText()); //number of dice
-       sides = Integer.valueOf(InputSides.getText()); //number of sides
-
+        sides = Integer.valueOf(InputSides.getText()); //number of sides
         theoric = Math.log10(2) / Math.log10((double) sides / ((double) sides - 1)); //meia vida teorica
+        data = sim.CalculateDice(dice, sides);
+
+        System.out.println("Rolled " + dice + " " + sides + " sided dice");
+        SimulateGlobalDice();
+    }//GEN-LAST:event_jButtonRollDiceActionPerformed
+
+    private void SimulateGlobalDice() {
+
+        InputDices.setText(Integer.toString(dice)); //number of dice
+        InputSides.setText(Integer.toString(sides)); //number of sides
         value_p.setText(Double.toString(theoric));
 
-        data = sim.CalculateDice(dice, sides);
         GraphIt(GraphPanel, data.s1);//plot all the points
         jList1.setModel(data.lm);//after this the list is updated when we add or remove to the model
 
-        
-        
-        System.out.println("Rolled " + dice + " " + sides + " sided dice");
-    }//GEN-LAST:event_jButtonRollDiceActionPerformed
+    }
+
     private void GraphIt(JPanel panel, XYSeries s) {//settings to mess with the graph styling
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
@@ -755,7 +756,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
             rangeAxis.setAutoRangeIncludesZero(false);
             plot.setOrientation(PlotOrientation.VERTICAL);
-//        final ChartPanel 
+//        final ChartPanel
             chartPanel = new ChartPanel(chart);
 
         } else if (panel == GraphPanelSimulator) {
@@ -791,7 +792,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
             rangeAxis.setAutoRangeIncludesZero(false);
             plot.setOrientation(PlotOrientation.VERTICAL);
-//        final ChartPanel 
+//        final ChartPanel
             chartPanel = new ChartPanel(chart);
 
         }
@@ -819,7 +820,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void ButtonCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCalculateActionPerformed
 
         //Calculate rolls and dices
-        //original      
+        //original
 //((jogfin-jogini)*log10(2))/(log10(dadoini/dadofin));
         double inRoll = Double.parseDouble(TextInicialRoll.getText());
         double inDices = Double.parseDouble(TextInicialDices.getText());
@@ -836,18 +837,15 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_InputDicesActionPerformed
 
     private void SaveDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDiceActionPerformed
-           
-        
 
         try {
-            
-        SaveFile sv = new SaveFile();
-                
-        Simulator.DataReadWriteCapsule cap 
-                = sim.new DataReadWriteCapsule(dice,sides,theoric,data);
+
+            SaveFile sv = new SaveFile();
+
+            Simulator.DataReadWriteCapsule cap
+                    = sim.new DataReadWriteCapsule(dice, sides, theoric, data);
             sv.WriteData(cap);
-            
-            
+
             // TODO add your handling code here:
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
@@ -857,33 +855,27 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private void CalculateSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelectedActionPerformed
 
         int pos[] = jList1.getSelectedIndices();
-        
+
         //meia vida e vida media
-        
-        
         List<String> ss = jList1.getSelectedValuesList();
-        
+
 //        Pair p = (Pair)ss.get(0);
 //        System.out.println(p);
 //        System.out.println(pos[0]+" and "+ pos[1]);
-        
-        
         String[] ini = (data.lm.elementAt(pos[0]).toString()).split("=");
         String[] fin = (data.lm.elementAt(pos[1]).toString()).split("=");
-        
-        System.out.println("Selected Inicial = " + ini[0]+" "+ini[1]);//inicial roll and dice
-        System.out.println("Selected Final = " + fin[0]+" "+fin[1]);//final roll and dice
 
-        
+        System.out.println("Selected Inicial = " + ini[0] + " " + ini[1]);//inicial roll and dice
+        System.out.println("Selected Final = " + fin[0] + " " + fin[1]);//final roll and dice
+
         calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
         calcDialog.setLocationRelativeTo(this);
-        
+
         calcDialog.TextInicialRoll.setText(ini[0]);
         calcDialog.TextInicialDices.setText(ini[1]);
         calcDialog.TextFinalRoll.setText(fin[0]);
         calcDialog.TextFinalDices.setText(fin[1]);
-        
-        
+
         calcDialog.Calculate();
 
         calcDialog.setVisible(true);
@@ -902,7 +894,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         //Simular
 
         int quantity = Integer.valueOf(InputQuantity.getText()); //quantity of grams/molecule etc
-        int time;//half life time        
+        int time;//half life time
 
         System.out.println("Simulated " + quantity + " " + ComboType.getItemAt(ComboType.getSelectedIndex()) + " of ");
 
@@ -922,7 +914,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         GraphIt(GraphPanelSimulator, data.s1);//plot all the points
         jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
 
-
     }//GEN-LAST:event_JButtonSimulateActionPerformed
 
     private void CalculatedHalfLife(int time) {
@@ -931,7 +922,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         value_p1.setText(Double.toString(theoric));
 
     }
-
 
     private void InputQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputQuantityActionPerformed
         // TODO add your handling code here:
@@ -972,7 +962,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             ComboTypeElement.setEnabled(true);
         }
 
-
     }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -981,14 +970,19 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         //janela.setLocationRelativeTo(null);
         //janela.setExtendedState(janela.getExtendedState()|JFrame. );
         janela.setSize(1500, 700);
-        janela.setLocationRelativeTo(null);                                    
+        janela.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void LoadDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadDiceActionPerformed
-        System.out.println("loading dice");
-        
-        
-        SaveFile.ReadData();
+
+        Simulator.DataReadWriteCapsule cap = SaveFile.ReadData();
+        data = cap.data;
+        dice = cap.dice;
+        sides = cap.sides;
+        theoric = cap.theoric;
+
+        System.out.println("Loaded " + cap.dice + " " + cap.sides + " sided dice");
+        SimulateGlobalDice();
     }//GEN-LAST:event_LoadDiceActionPerformed
 
     /**
@@ -1020,7 +1014,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         });
 
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCalculate;
