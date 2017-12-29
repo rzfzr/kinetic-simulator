@@ -78,7 +78,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         ComboTypeTime.setEnabled(false);
         jLabel18.setEnabled(false);
 
-        CalculateSelected.setEnabled(false);
+        LabelResultCalculated.setText("Selecione 2");
+//        CalculateSelected.setEnabled(false);
 
 //        jList1.getSelectionModel().setSelectionInterval(0, 3);
 //jList1.addSelectionInterval(0,2);
@@ -88,17 +89,20 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
                 int pos[] = jList1.getSelectedIndices();
 
-                System.out.println("Selected: " + index0 + " and " + index1);//why 2 ??
+                System.out.println("Selected: " + index0 + " and " + index1);//why 2 ?? dk
 
                 if (super.isSelectedIndex(index0)) {//is selected so deselect
                     super.removeSelectionInterval(index0, index1);
 
-                    CalculateSelected.setEnabled(false);
+//                    CalculateSelected.setEnabled(false);
+                    LabelResultCalculated.setText("Selecione 2");
                 } else {//if is not selected so select it
                     if (jList1.getSelectedValuesList().size() < 2) {//less than 2 so just add
                         super.addSelectionInterval(index0, index1);
                         if (jList1.getSelectedValuesList().size() == 2) {
-                            CalculateSelected.setEnabled(true);
+//                            CalculateSelected.setEnabled(true);
+
+                            UpdateResultCalculated();
                         }
                     } else {//more than 2, add but delete one
                         if (index0 > pos[1]) {//more than last so delete last
@@ -115,6 +119,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
                         }
                         super.addSelectionInterval(index0, index1);//after deleting one, add new
+
+                        UpdateResultCalculated();
+
                     }
                 }
             }
@@ -122,6 +129,24 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 //
 //            jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 //        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
+
+    }
+
+    private void UpdateResultCalculated() {
+        int pos2[] = jList1.getSelectedIndices();
+        List<String> ss = jList1.getSelectedValuesList();
+        String[] ini = (data.lm.elementAt(pos2[0]).toString()).split("=");
+        String[] fin = (data.lm.elementAt(pos2[1]).toString()).split("=");
+
+        System.out.println("Selected Initial = " + ini[0] + " " + ini[1]);
+        System.out.println("Selected Final = " + fin[0] + " " + fin[1]);
+
+        int initialRoll = Integer.parseInt(ini[0]);
+        int initialDice = Integer.parseInt(ini[1]);
+        int finalRoll = Integer.parseInt(fin[0]);
+        int finalDice = Integer.parseInt(fin[1]);
+
+        LabelResultCalculated.setText(Double.toString(sim.CalculateSelected(initialRoll, finalRoll, initialDice, finalDice)));
 
     }
 
@@ -171,19 +196,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jLabel10 = new javax.swing.JLabel();
         value_p = new javax.swing.JLabel();
         SaveDice = new javax.swing.JButton();
-        CalculateSelected = new javax.swing.JButton();
         LoadDice = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        TextInicialRoll = new javax.swing.JTextField();
-        TextInicialDices = new javax.swing.JTextField();
-        TextFinalRoll = new javax.swing.JTextField();
-        TextFinalDices = new javax.swing.JTextField();
-        LabelResult = new javax.swing.JLabel();
-        ButtonCalculate = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        LabelResultCalculated = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -337,7 +352,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addComponent(jButton1)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
@@ -389,7 +404,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CalculateSelected1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -464,19 +479,17 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             }
         });
 
-        CalculateSelected.setText("Calcular");
-        CalculateSelected.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CalculateSelectedActionPerformed(evt);
-            }
-        });
-
         LoadDice.setText("Carregar  Resultados");
         LoadDice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoadDiceActionPerformed(evt);
             }
         });
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setText("Meia Vida Calculada:");
+
+        LabelResultCalculated.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -486,37 +499,43 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(LoadDice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel4)
-                        .addComponent(InputSides)
-                        .addComponent(InputDices)
-                        .addComponent(jLabel8)
-                        .addComponent(SaveDice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addComponent(jButtonRollDice)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonClearDice, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(value_p, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jLabel9)))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(InputSides, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(InputDices, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SaveDice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButtonRollDice)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonClearDice, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(value_p, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(GraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CalculateSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(GraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel11)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LabelResultCalculated, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(GraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(GraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -542,122 +561,23 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CalculateSelected, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LoadDice)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LoadDice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11))
+                    .addComponent(LabelResultCalculated, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados", jPanel4);
-
-        TextInicialRoll.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        TextInicialDices.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        TextFinalRoll.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        TextFinalDices.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        TextFinalDices.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextFinalDicesActionPerformed(evt);
-            }
-        });
-
-        LabelResult.setBackground(new java.awt.Color(255, 255, 204));
-
-        ButtonCalculate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        ButtonCalculate.setText("Calcular");
-        ButtonCalculate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonCalculateActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Jogada Inicial");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("Jogada Final");
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel6.setText("Dados Inicial");
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setText("Dados Final");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(64, 64, 64))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(TextInicialRoll)
-                                            .addComponent(TextFinalRoll))
-                                        .addGap(58, 58, 58)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                                    .addComponent(TextInicialDices)
-                                    .addComponent(TextFinalDices))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 69, Short.MAX_VALUE)
-                        .addComponent(LabelResult, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(455, 455, 455))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(ButtonCalculate)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextInicialRoll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextInicialDices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextFinalRoll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFinalDices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(ButtonCalculate)
-                .addGap(9, 9, 9)
-                .addComponent(LabelResult, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(218, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Meia Vida Calculada", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -669,9 +589,139 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void LoadDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadDiceActionPerformed
+
+        Simulator.DataReadWriteCapsule cap = SaveFile.ReadData();
+        data = cap.data;
+        dice = cap.dice;
+        sides = cap.sides;
+        theoric = cap.theoric;
+
+        System.out.println("Loaded " + cap.dice + " " + cap.sides + " sided dice");
+        SimulateGlobalDice();
+    }//GEN-LAST:event_LoadDiceActionPerformed
+
+    private void SaveDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDiceActionPerformed
+
+        try {
+
+            SaveFile sv = new SaveFile();
+
+            Simulator.DataReadWriteCapsule cap
+                    = sim.new DataReadWriteCapsule(dice, sides, theoric, data);
+            sv.WriteData(cap);
+
+            // TODO add your handling code here:
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_SaveDiceActionPerformed
+
     private void jButtonClearDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearDiceActionPerformed
         ClearDiceScreen();
     }//GEN-LAST:event_jButtonClearDiceActionPerformed
+
+    private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
+
+        dice = Integer.valueOf(InputDices.getText()); //number of dice
+        sides = Integer.valueOf(InputSides.getText()); //number of sides
+        theoric = Math.log10(2) / Math.log10((double) sides / ((double) sides - 1)); //meia vida teorica
+        data = sim.CalculateDice(dice, sides);
+
+        System.out.println("Rolled " + dice + " " + sides + " sided dice");
+        SimulateGlobalDice();
+    }//GEN-LAST:event_jButtonRollDiceActionPerformed
+
+    private void InputDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputDicesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputDicesActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFrame janela = new PeriodicTableFrame();
+        janela.setVisible(true);
+        //janela.setLocationRelativeTo(null);
+        //janela.setExtendedState(janela.getExtendedState()|JFrame. );
+        janela.setSize(1500, 700);
+        janela.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jCheckBoxCustomElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCustomElementActionPerformed
+        if (jCheckBoxCustomElement.isSelected()) {
+
+            System.out.println("Checked custom element");
+
+            InputTimeTemp.setEnabled(true);
+            ComboTypeTime.setEnabled(true);
+            jLabel18.setEnabled(true);
+
+            jLabel14.setEnabled(false);
+            ComboTypeElement.setEnabled(false);
+
+        } else {
+            System.out.println("Unchecked custom element");
+
+            InputTimeTemp.setEnabled(false);
+            ComboTypeTime.setEnabled(false);
+            jLabel18.setEnabled(false);
+
+            jLabel14.setEnabled(true);
+            ComboTypeElement.setEnabled(true);
+        }
+    }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
+
+    private void InputTimeTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputTimeTempActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputTimeTempActionPerformed
+
+    private void ComboTypeElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTypeElementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboTypeElementActionPerformed
+
+    private void CalculateSelected1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelected1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CalculateSelected1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        ClearSimulateScreen();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void JButtonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSimulateActionPerformed
+        //Simular
+
+        int quantity = Integer.valueOf(InputQuantity.getText()); //quantity of grams/molecule etc
+        int time;//half life time
+
+        System.out.println("Simulated " + quantity + " " + ComboType.getItemAt(ComboType.getSelectedIndex()) + " of ");
+
+        if (jCheckBoxCustomElement.isSelected()) {//get custom element from user
+            time = Integer.valueOf(InputTimeTemp.getText());
+            System.out.println("Elemento Customizado" + " (MV de " + time + " " + ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()) + ")");
+        } else {//get choosen element from csv file
+            time = Integer.valueOf(HLValues[ComboTypeElement.getSelectedIndex()]);
+
+            System.out.println(ComboTypeElement.getItemAt(ComboTypeElement.getSelectedIndex()) + " (MV de "
+                    + HLValues[ComboTypeElement.getSelectedIndex()] + " " + HLTypes[ComboTypeElement.getSelectedIndex()] + ")");
+
+        }
+        CalculatedHalfLife(time);
+
+        data = sim.CalculateDice(quantity, time);
+        GraphIt(GraphPanelSimulator, data.s1);//plot all the points
+        jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
+    }//GEN-LAST:event_JButtonSimulateActionPerformed
+
+    private void InputQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputQuantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputQuantityActionPerformed
+
+    private void ComboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboTypeActionPerformed
 
     void ClearDiceScreen() {
         // Clear everything
@@ -705,16 +755,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     int sides;
 
     double theoric;
-    private void jButtonRollDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRollDiceActionPerformed
-
-        dice = Integer.valueOf(InputDices.getText()); //number of dice
-        sides = Integer.valueOf(InputSides.getText()); //number of sides
-        theoric = Math.log10(2) / Math.log10((double) sides / ((double) sides - 1)); //meia vida teorica
-        data = sim.CalculateDice(dice, sides);
-
-        System.out.println("Rolled " + dice + " " + sides + " sided dice");
-        SimulateGlobalDice();
-    }//GEN-LAST:event_jButtonRollDiceActionPerformed
 
     private void SimulateGlobalDice() {
 
@@ -814,107 +854,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         crosshairOverlay.addRangeCrosshair(yCrosshair);
         chartPanel.addOverlay(crosshairOverlay);
     }
-    private void TextFinalDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFinalDicesActionPerformed
-
-    }//GEN-LAST:event_TextFinalDicesActionPerformed
-    private void ButtonCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCalculateActionPerformed
-
-        //Calculate rolls and dices
-        //original
-//((jogfin-jogini)*log10(2))/(log10(dadoini/dadofin));
-        double inRoll = Double.parseDouble(TextInicialRoll.getText());
-        double inDices = Double.parseDouble(TextInicialDices.getText());
-
-        double finRoll = Double.parseDouble(TextFinalRoll.getText());
-        double finDices = Double.parseDouble(TextFinalDices.getText());
-
-        double result = ((finRoll - inRoll) * Math.log10(2)) / (Math.log10(inDices / finDices));
-
-        LabelResult.setText(Double.toString(result));
-    }//GEN-LAST:event_ButtonCalculateActionPerformed
-    private void InputDicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputDicesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InputDicesActionPerformed
-
-    private void SaveDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDiceActionPerformed
-
-        try {
-
-            SaveFile sv = new SaveFile();
-
-            Simulator.DataReadWriteCapsule cap
-                    = sim.new DataReadWriteCapsule(dice, sides, theoric, data);
-            sv.WriteData(cap);
-
-            // TODO add your handling code here:
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_SaveDiceActionPerformed
     CalculateDialog calcDialog;
-    private void CalculateSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelectedActionPerformed
-
-        int pos[] = jList1.getSelectedIndices();
-
-        //meia vida e vida media
-        List<String> ss = jList1.getSelectedValuesList();
-
-//        Pair p = (Pair)ss.get(0);
-//        System.out.println(p);
-//        System.out.println(pos[0]+" and "+ pos[1]);
-        String[] ini = (data.lm.elementAt(pos[0]).toString()).split("=");
-        String[] fin = (data.lm.elementAt(pos[1]).toString()).split("=");
-
-        System.out.println("Selected Inicial = " + ini[0] + " " + ini[1]);//inicial roll and dice
-        System.out.println("Selected Final = " + fin[0] + " " + fin[1]);//final roll and dice
-
-        calcDialog = new CalculateDialog(this, rootPaneCheckingEnabled);
-        calcDialog.setLocationRelativeTo(this);
-
-        calcDialog.TextInicialRoll.setText(ini[0]);
-        calcDialog.TextInicialDices.setText(ini[1]);
-        calcDialog.TextFinalRoll.setText(fin[0]);
-        calcDialog.TextFinalDices.setText(fin[1]);
-
-        calcDialog.Calculate();
-
-        calcDialog.setVisible(true);
-    }//GEN-LAST:event_CalculateSelectedActionPerformed
-    private void CalculateSelected1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelected1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CalculateSelected1ActionPerformed
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
-        ClearSimulateScreen();
-    }//GEN-LAST:event_jButton5ActionPerformed
-    private void JButtonSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonSimulateActionPerformed
-        //Simular
-
-        int quantity = Integer.valueOf(InputQuantity.getText()); //quantity of grams/molecule etc
-        int time;//half life time
-
-        System.out.println("Simulated " + quantity + " " + ComboType.getItemAt(ComboType.getSelectedIndex()) + " of ");
-
-        if (jCheckBoxCustomElement.isSelected()) {//get custom element from user
-            time = Integer.valueOf(InputTimeTemp.getText());
-            System.out.println("Elemento Customizado" + " (MV de " + time + " " + ComboTypeTime.getItemAt(ComboTypeTime.getSelectedIndex()) + ")");
-        } else {//get choosen element from csv file
-            time = Integer.valueOf(HLValues[ComboTypeElement.getSelectedIndex()]);
-
-            System.out.println(ComboTypeElement.getItemAt(ComboTypeElement.getSelectedIndex()) + " (MV de "
-                    + HLValues[ComboTypeElement.getSelectedIndex()] + " " + HLTypes[ComboTypeElement.getSelectedIndex()] + ")");
-
-        }
-        CalculatedHalfLife(time);
-
-        data = sim.CalculateDice(quantity, time);
-        GraphIt(GraphPanelSimulator, data.s1);//plot all the points
-        jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
-
-    }//GEN-LAST:event_JButtonSimulateActionPerformed
 
     private void CalculatedHalfLife(int time) {
 
@@ -922,68 +862,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         value_p1.setText(Double.toString(theoric));
 
     }
-
-    private void InputQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputQuantityActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InputQuantityActionPerformed
-
-    private void InputTimeTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputTimeTempActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InputTimeTempActionPerformed
-
-    private void ComboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTypeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboTypeActionPerformed
-
-    private void ComboTypeElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboTypeElementActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboTypeElementActionPerformed
-
-    private void jCheckBoxCustomElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCustomElementActionPerformed
-        if (jCheckBoxCustomElement.isSelected()) {
-
-            System.out.println("Checked custom element");
-
-            InputTimeTemp.setEnabled(true);
-            ComboTypeTime.setEnabled(true);
-            jLabel18.setEnabled(true);
-
-            jLabel14.setEnabled(false);
-            ComboTypeElement.setEnabled(false);
-
-        } else {
-            System.out.println("Unchecked custom element");
-
-            InputTimeTemp.setEnabled(false);
-            ComboTypeTime.setEnabled(false);
-            jLabel18.setEnabled(false);
-
-            jLabel14.setEnabled(true);
-            ComboTypeElement.setEnabled(true);
-        }
-
-    }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame janela = new PeriodicTableFrame();
-        janela.setVisible(true);
-        //janela.setLocationRelativeTo(null);
-        //janela.setExtendedState(janela.getExtendedState()|JFrame. );
-        janela.setSize(1500, 700);
-        janela.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void LoadDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadDiceActionPerformed
-
-        Simulator.DataReadWriteCapsule cap = SaveFile.ReadData();
-        data = cap.data;
-        dice = cap.dice;
-        sides = cap.sides;
-        theoric = cap.theoric;
-
-        System.out.println("Loaded " + cap.dice + " " + cap.sides + " sided dice");
-        SimulateGlobalDice();
-    }//GEN-LAST:event_LoadDiceActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1016,8 +894,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonCalculate;
-    private javax.swing.JButton CalculateSelected;
     private javax.swing.JButton CalculateSelected1;
     private javax.swing.JComboBox<String> ComboType;
     private javax.swing.JComboBox<String> ComboTypeElement;
@@ -1029,21 +905,17 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JTextField InputSides;
     private javax.swing.JTextField InputTimeTemp;
     private javax.swing.JButton JButtonSimulate;
-    private javax.swing.JLabel LabelResult;
+    private javax.swing.JLabel LabelResultCalculated;
     private javax.swing.JButton LoadDice;
     private javax.swing.JButton SaveDice;
-    private javax.swing.JTextField TextFinalDices;
-    private javax.swing.JTextField TextFinalRoll;
-    private javax.swing.JTextField TextInicialDices;
-    private javax.swing.JTextField TextInicialRoll;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButtonClearDice;
     private javax.swing.JButton jButtonRollDice;
     private javax.swing.JCheckBox jCheckBoxCustomElement;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1052,17 +924,13 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

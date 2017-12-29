@@ -19,8 +19,6 @@ import org.jfree.data.xy.XYSeries;
  */
 public class Simulator {
 
-    
-    
 //    public enum SimulationType{
 //        DICE,CHEM
 //    }
@@ -42,37 +40,38 @@ public class Simulator {
         }
 
     }
-    
-    public class DataReadWriteCapsule{
+
+    public class DataReadWriteCapsule {
 //        SimulationType type;
+
         Data data;
         int dice;
         int sides;
         double theoric;
-        DataReadWriteCapsule(int dice,int sides,double theoric, Data data){
+
+        DataReadWriteCapsule(int dice, int sides, double theoric, Data data) {
             //constructor for type dice
-            this.dice=dice;
-            this.sides=sides;
-            this.theoric=theoric;
-           this.data=data;       
-    }
+            this.dice = dice;
+            this.sides = sides;
+            this.theoric = theoric;
+            this.data = data;
+        }
 //
 //        public DataReadWriteCapsule() {
 //            //constructor for chem
-//        
+//
 //        }
-        
-    
-}
+
+    }
 
     public String[] getDataCSV(int col) {
 
         //File directory = new File("./");//System.out.println(directory.getAbsolutePath());
         File csv = new File("../acervo.csv");
 
-        int i=0;
-        String[] arr= new String[10];//TODO: make dinamic
-        
+        int i = 0;
+        String[] arr = new String[10];//TODO: make dinamic
+
         try {
             Scanner scan = new Scanner(csv);
             String line = new String();
@@ -81,21 +80,20 @@ public class Simulator {
             while (scan.hasNext()) {
                 line = scan.nextLine();
                 String[] item = line.split(",");
-                arr[i] = item[col];i++;//item address is the column
+                arr[i] = item[col];
+                i++;//item address is the column
 //                System.out.println(item[1]);
             }
             return arr;
-            } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("CSV file not found");
             return null;
         }
 
-        
     }
 
     public Data CalculateDice(int dice, int sides) {
 
-        
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
         int roll = 0;   //current roll
         int rolled; //selected dice per roll
@@ -127,6 +125,12 @@ public class Simulator {
         Data data = new Data(s1, lm);
 
         return data;
+    }
+
+    public Double CalculateSelected(int initialRoll, int finalRoll,
+            int initialDice, int finalDice) {
+        return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2))
+                / (double) (Math.log10((double) initialDice / finalDice));
     }
 
 }
