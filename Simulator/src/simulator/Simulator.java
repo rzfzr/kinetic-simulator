@@ -19,6 +19,11 @@ import org.jfree.data.xy.XYSeries;
  */
 public class Simulator {
 
+    
+    
+//    public enum SimulationType{
+//        DICE,CHEM
+//    }
     /**
      * @param args the command line arguments
      */
@@ -37,6 +42,28 @@ public class Simulator {
         }
 
     }
+    
+    public class DataReadWriteCapsule{
+//        SimulationType type;
+        Data data;
+        int dice;
+        int sides;
+        double theoric;
+        DataReadWriteCapsule(int dice,int sides,double theoric, Data data){
+            //constructor for type dice
+            this.dice=dice;
+            this.sides=sides;
+            this.theoric=theoric;
+           this.data=data;       
+    }
+//
+//        public DataReadWriteCapsule() {
+//            //constructor for chem
+//        
+//        }
+        
+    
+}
 
     public String[] getDataCSV(int col) {
 
