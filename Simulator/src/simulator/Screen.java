@@ -67,12 +67,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
     public void myInitComponents() {
         sim = new Simulator();
+
+        int lines = 11;
+        String path = "../acervo.csv";
+
         ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gramas", "Moleculas", "Unidades"}));
         ComboTypeTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Anos", "Meses", "Dias", "Horas", "Minutos"}));
 
-        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV(0)));
-        HLValues = sim.getDataCSV(1);
-        HLTypes = sim.getDataCSV(2);
+        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV(0, lines, path)));
+        HLValues = sim.getDataCSV(1, lines, path);
+        HLTypes = sim.getDataCSV(2, lines, path);
 
         InputTimeTemp.setEnabled(false);
         ComboTypeTime.setEnabled(false);

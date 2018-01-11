@@ -64,13 +64,13 @@ public class Simulator {
 
     }
 
-    public String[] getDataCSV(int col) {
+    public String[] getDataCSV(int col, int lines, String filePath) {
 
         //File directory = new File("./");//System.out.println(directory.getAbsolutePath());
-        File csv = new File("../acervo.csv");
+        File csv = new File(filePath);
 
         int i = 0;
-        String[] arr = new String[10];//TODO: make dinamic
+        String[] arr = new String[lines];//TODO: make dinamic
 
         try {
             Scanner scan = new Scanner(csv);
