@@ -854,7 +854,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         crosshairOverlay.addRangeCrosshair(yCrosshair);
         chartPanel.addOverlay(crosshairOverlay);
     }
-    CalculateDialog calcDialog;
+    //CalculateDialog calcDialog;
 
     private void CalculatedHalfLife(int time) {
 
