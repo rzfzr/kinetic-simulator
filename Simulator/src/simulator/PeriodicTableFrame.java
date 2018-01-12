@@ -129,18 +129,17 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
                         genericInt = anotherGenericInt;
                         if (genericInt == anotherGenericInt) {
 
-                            printElement(label2atomic[i2]);
-
+//                            printElement(label2atomic[i2]);
                             //setVisible(false);     hide the main periodic table
                             Frame frame = new Frame();
                             JPanel panel = new JPanel();
 //                            JPanel panel2 = new JPanel();
                             //JScrollPane scroll = new JScrollPane();
 
-                            JButton butt = new JButton();
-                            panel.add(butt);
+                            addIsotipeButtons(label2atomic[i2], panel);
+
                             //frame.setLocation(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y);
-                            frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 500, 500);
+                            frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 80, 300);
                             frame.setVisible(true);
                             panel.setLayout(new FlowLayout());
 //                            panel2.setLayout(new FlowLayout());
@@ -188,6 +187,20 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
         for (int i = 0; i < lines; i++) {
             if (Integer.parseInt(atomicNumbers[i]) == atomicNumber) {
                 System.out.println(i + "  " + atomicNumbers[i] + "/" + isotopes[i] + "/" + exponential[i] + "/" + seconds[i]);
+
+            }
+        }
+    }
+
+    public void addIsotipeButtons(int atomicNumber, JPanel panel) {
+        for (int i = 0; i < lines; i++) {
+            if (Integer.parseInt(atomicNumbers[i]) == atomicNumber) {
+                System.out.println(i + "  " + atomicNumbers[i] + "/" + isotopes[i] + "/" + exponential[i] + "/" + seconds[i]);
+                JButton butt = new JButton();
+//                            butt.setSize(100, 25);
+                butt.setText(isotopes[i]);
+
+                panel.add(butt);
 
             }
         }
