@@ -3,6 +3,7 @@ package simulator;
 //import simulator.demos.periodicTable.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -136,8 +137,6 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 //                            JPanel panel2 = new JPanel();
                             //JScrollPane scroll = new JScrollPane();
 
-                            addIsotipeButtons(label2atomic[i2], panel);
-
                             //frame.setLocation(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y);
                             frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 80, 300);
                             frame.setVisible(true);
@@ -145,6 +144,7 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 //                            panel2.setLayout(new FlowLayout());
                             frame.add(panel, BorderLayout.CENTER);
                             //panel.add(scroll);
+                            addIsotipeButtons(label2atomic[i2], panel);
                             frame.addWindowListener(new WindowAdapter() {
                                 public void windowClosing(WindowEvent e) {
                                     setVisible(true);
@@ -197,15 +197,43 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
             if (Integer.parseInt(atomicNumbers[i]) == atomicNumber) {
                 System.out.println(i + "  " + atomicNumbers[i] + "/" + isotopes[i] + "/" + exponential[i] + "/" + seconds[i]);
                 JButton butt = new JButton();
-//                            butt.setSize(100, 25);
+
                 butt.setText(isotopes[i]);
 
-                panel.add(butt);
+                butt.addActionListener(new IsotopeSelectedAction(i));
+
+//                Dimension d = getMaximumSize();
+//                butt.setPreferredSize(300, 40);
+                panel.add(butt, BorderLayout.NORTH);
 
             }
         }
     }
 
+    static class IsotopeSelectedAction implements ActionListener {
+
+        int sel;
+
+        public IsotopeSelectedAction(int sel) {
+            this.sel = sel;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("clicked" + sel);
+//            JFrame frame2 = new JFrame("Clicked");
+//            frame2.setVisible(true);
+//            frame2.setSize(200, 200);
+//            JLabel label = new JLabel("you clicked me");
+//            JPanel panel = new JPanel();
+//            frame2.add(panel);
+//            panel.add(label);
+        }
+    }
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        JButton button = (JButton) e.getSource();
+//        System.out.println(button.getText());
+//    }
     int[] label2atomic = new int[162];//address is label, value is atomic
 
     public void setLabels() {
