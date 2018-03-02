@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
         <file>
             <url>src/simulator/Screen.java</url>
+            <bookmark id="3">
+                <name/>
+                <line>763</line>
+                <key/>
+            </bookmark>
             <bookmark id="1">
                 <name/>
-                <line>862</line>
+                <line>866</line>
                 <key/>
             </bookmark>
         </file>
@@ -14,7 +19,9 @@
         <group>
             <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/src/simulator/PeriodicTableFrame.java</file>
             <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/src/simulator/SaveFile.java</file>
+            <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/UltimoSimuladoDados.csv</file>
             <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/src/simulator/CalculateSelectedRolls.java</file>
+            <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/</file>
             <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/src/simulator/Simulator.java</file>
             <file>file:/C:/Users/rzfzr/Desktop/GitGud/kinetic-simulator/Simulator/src/simulator/Screen.java</file>
         </group>
