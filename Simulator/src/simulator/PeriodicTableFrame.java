@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -52,14 +53,57 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
     private static final Color backgroundBlack = new Color(0, 0, 0);
     public int switchVal = 1;
 
-    PeriodicTableFrame() {
+    public static Screen mainScreen;
+
+    PeriodicTableFrame(Screen mainScreen) {
+        this.mainScreen = mainScreen;
+
         UIManager.put("MenuBar.background", backgroundBlack);
         UIManager.put("MenuBar.foreground", textWhite);
         UIManager.put("Menu.background", backgroundBlack);
         UIManager.put("Menu.foreground", textWhite);
         UIManager.put("MenuItem.background", backgroundBlack);
         UIManager.put("MenuItem.foreground", textWhite);
-        setLabels();
+        SetLabels();
+
+        SetupElementsColoursVisibility();
+        add(displayPanel, BorderLayout.CENTER);
+
+        GetCSVValues();
+
+        for (int i = 0; i < 162; i++) {
+            final int i2 = i;    //need to create an auxiliar "i" to make it "final" to use it in this instance
+            anotherGenericInt = i;
+            if (i != 92 && i != 110) {
+                elementButtons[i].addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ev) {
+                        genericInt = anotherGenericInt;
+                        if (genericInt == anotherGenericInt) {
+                            //setVisible(false);     hide the main periodic table
+                            Frame frame = new Frame();
+//                            frames[i] = frame;
+                            JPanel panel = new JPanel();
+                            frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 80, 300);
+                            frame.setVisible(true);
+                            panel.setLayout(new FlowLayout());
+                            frame.add(panel, BorderLayout.CENTER);
+                            addIsotipeButtons(label2atomic[i2], panel);
+                            frame.addWindowListener(new WindowAdapter() {
+                                public void windowClosing(WindowEvent e) {
+//                                    setVisible(true);
+                                    frame.dispose();
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                elementButtons[i].setEnabled(false);
+            }
+        }
+    }
+
+    void SetupElementsColoursVisibility() {
 
         for (int i = 0; i < 162; i++) {
             elementButtons[i] = new JButton(elementButtonLabels[i]);
@@ -118,55 +162,17 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
                 elementButtons[i].setForeground(textWhite);
             }
         }
-        add(displayPanel, BorderLayout.CENTER);
 
-        getCSVValues();
-        for (int i = 0; i < 162; i++) {
-            final int i2 = i;    //need to create an auxiliar "i" to make it "final" to use it in this instance
-            anotherGenericInt = i;
-            if (i != 92 && i != 110) {
-                elementButtons[i].addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent ev) {
-                        genericInt = anotherGenericInt;
-                        if (genericInt == anotherGenericInt) {
-
-//                            printElement(label2atomic[i2]);
-                            //setVisible(false);     hide the main periodic table
-                            Frame frame = new Frame();
-                            JPanel panel = new JPanel();
-//                            JPanel panel2 = new JPanel();
-                            //JScrollPane scroll = new JScrollPane();
-
-                            //frame.setLocation(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y);
-                            frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 80, 300);
-                            frame.setVisible(true);
-                            panel.setLayout(new FlowLayout());
-//                            panel2.setLayout(new FlowLayout());
-                            frame.add(panel, BorderLayout.CENTER);
-                            //panel.add(scroll);
-                            addIsotipeButtons(label2atomic[i2], panel);
-                            frame.addWindowListener(new WindowAdapter() {
-                                public void windowClosing(WindowEvent e) {
-                                    setVisible(true);
-                                    frame.dispose();
-                                }
-                            });
-                        }
-                    }
-                });
-            } else {
-                elementButtons[i].setEnabled(false);
-            }
-        }
     }
 
+//    final Frame[] framesFinal = new Frame[162];
     Simulator sim = new Simulator();
 
     public String[] atomicNumbers, isotopes, exponential, seconds;
 
     int lines = 246;
 
-    public void getCSVValues() {
+    public void GetCSVValues() {
         String path = "../isotopes.csv";
 
         atomicNumbers = sim.getDataCSV(0, lines, path);
@@ -210,7 +216,7 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
         }
     }
 
-    static class IsotopeSelectedAction implements ActionListener {
+    class IsotopeSelectedAction implements ActionListener {
 
         int sel;
 
@@ -219,7 +225,20 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
         }
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("clicked" + sel);
+            System.out.println("Selected ''element'' n" + sel);
+            mainScreen.SetPeriodicElement("Nome do Elemento Periodico",
+                    Integer.parseInt(isotopes[sel]),
+                    Integer.parseInt(exponential[sel]),
+                    Integer.parseInt(seconds[sel]));
+            for (Window window : Window.getWindows()) { //dispose of subtable
+                if (window.isActive()) {
+                    window.dispose();
+
+                }
+            }
+            dispose();//dispose of the whole table
+
+//            Screen screen = new Screen();
 //            JFrame frame2 = new JFrame("Clicked");
 //            frame2.setVisible(true);
 //            frame2.setSize(200, 200);
@@ -236,7 +255,7 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
 //    }
     int[] label2atomic = new int[162];//address is label, value is atomic
 
-    public void setLabels() {
+    public void SetLabels() {
         elementButtonLabels[0] = "<html><div style=\"text-align: center;\"><strong>" + "1" + "<br>" + "H" + "<br>"
                 + "1.008" + "</strong></html>";
         label2atomic[0] = 1;
@@ -656,9 +675,9 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
             //no theme
         }
 
-        PeriodicTableFrame f = new PeriodicTableFrame();
-        f.setBounds(0, 0, 1366, 768);
-        f.setTitle("Tabela Periodica");
-        f.setVisible(true);
+//        PeriodicTableFrame f = new PeriodicTableFrame(mainScreen);
+//        f.setBounds(0, 0, 1366, 768);
+//        f.setTitle("Tabela Periodica");
+//        f.setVisible(true);
     }
 }

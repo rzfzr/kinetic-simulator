@@ -641,7 +641,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_InputDicesActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame janela = new PeriodicTableFrame();
+        JFrame janela = new PeriodicTableFrame(this);
+
         janela.setVisible(true);
         //janela.setLocationRelativeTo(null);
         //janela.setExtendedState(janela.getExtendedState()|JFrame. );
@@ -650,10 +651,12 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckBoxCustomElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCustomElementActionPerformed
+        MyCustomElementCheckboxChecker();
+    }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
+
+    private void MyCustomElementCheckboxChecker() {
         if (jCheckBoxCustomElement.isSelected()) {
-
             System.out.println("Checked custom element");
-
             InputTimeTemp.setEnabled(true);
             ComboTypeTime.setEnabled(true);
             jLabel18.setEnabled(true);
@@ -663,7 +666,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         } else {
             System.out.println("Unchecked custom element");
-
             InputTimeTemp.setEnabled(false);
             ComboTypeTime.setEnabled(false);
             jLabel18.setEnabled(false);
@@ -671,8 +673,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             jLabel14.setEnabled(true);
             ComboTypeElement.setEnabled(true);
         }
-    }//GEN-LAST:event_jCheckBoxCustomElementActionPerformed
-
+    }
     private void InputTimeTempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputTimeTempActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InputTimeTempActionPerformed
@@ -759,6 +760,17 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     int sides;
 
     double theoric;
+
+    public void SetPeriodicElement(String name, int isotope,
+            int exponential, int seconds) {
+        ClearSimulateScreen();
+
+        InputTimeTemp.setText(Integer.toString(seconds));
+
+        jCheckBoxCustomElement.setSelected(true);
+        MyCustomElementCheckboxChecker();
+
+    }
 
     private void SimulateGlobalDice() {
 
