@@ -93,37 +93,30 @@ public class Simulator {
     }
 
     public Data CalculateDice(int dice, float sides) {
-
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
         int roll = 0;   //current roll
-        int rolled; //selected dice per roll
 
         DefaultListModel lm;  //needed for list
         lm = new DefaultListModel();
 
         //TODO: use hashMap as int is unique, or substitute '=' with correct number of spaces
-        lm.addElement(new Pair(0, dice)); //inicial point
+        lm.addElement(new Pair(roll, dice)); //inicial point
         s1.add(0, dice);
         while (dice > 0) {// if there are still dice
             roll++;
-            rolled = 0;
-            while (rolled < dice) {//roll all the remaining dice
-                rolled++;//minus one to roll
-                int rand = ThreadLocalRandom.current().nextInt(1, (int) (sides + 1));//rand number between 1 and the number of sides of the dice
 
-                if (rand == 1) {//if random number == 1 then
-                    dice--;//take one die away
+            for (int i = 0; i < dice; i++) {
+                int rand = ThreadLocalRandom.current().nextInt(1, (int) (sides));//rand number between 1 and the number of sides of the dice
+                if (rand == 1) {
+                    dice--;
+//                    System.out.println("less one");
                 }
-
             }
-
-            lm.addElement(new Pair(roll, rolled));//add to the list
-            s1.add(roll, rolled);//add to the chart (x,y)
-
+//            System.out.println("roll: " + roll + " rolled: " + dice);
+            lm.addElement(new Pair(roll, dice));//add to the list
+            s1.add(roll, dice);//add to the chart (x,y)
         }
-
         Data data = new Data(s1, lm);
-
         return data;
     }
 
