@@ -83,6 +83,10 @@ public class PeriodicTableFrame extends JFrame implements ActionListener {
                             Frame frame = new Frame();
 //                            frames[i] = frame;
                             JPanel panel = new JPanel();
+                            
+                            frame.setResizable(false); //Disable the Resize Button
+                          
+                 
                             frame.setBounds(elementButtons[i2].getLocationOnScreen().x, elementButtons[i2].getLocationOnScreen().y, 80, 300);
                             frame.setVisible(true);
                             panel.setLayout(new FlowLayout());
