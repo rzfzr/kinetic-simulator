@@ -120,6 +120,36 @@ public class Simulator {
         return data;
     }
 
+    public Data CalculateChemical(float quantity, float halflife) {
+        float initialQuantity = quantity;
+        final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
+        int time = 0;   //current roll
+
+        DefaultListModel lm;  //needed for list
+        lm = new DefaultListModel();
+
+        //TODO: use hashMap as int is unique, or substitute '=' with correct number of spaces
+        lm.addElement(new Pair(time, quantity)); //inicial point
+        s1.add(0, quantity);
+        while (quantity > 0) {// if there are still dice
+            time++;
+
+            quantity = (float) (initialQuantity * Math.pow((0.5f), (time / halflife)));
+            //            for (int i = 0; i < quantity; i++) {
+            //                int rand = ThreadLocalRandom.current().nextInt(1, (int) (halflife));//rand number between 1 and the number of sides of the dice
+            //                if (rand == 1) {
+            //                    quantity--;
+            ////                    System.out.println("less one");
+            //                }
+            //            }
+            //            System.out.println("roll: " + roll + " rolled: " + dice);
+            lm.addElement(new Pair(time, quantity));//add to the list
+            s1.add(time, quantity);//add to the chart (x,y)
+        }
+        Data data = new Data(s1, lm);
+        return data;
+    }
+
     public Double CalculateSelected(int initialRoll, int finalRoll,
             int initialDice, int finalDice) {
         return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2))

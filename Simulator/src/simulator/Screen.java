@@ -715,7 +715,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         }
         CalculatedHalfLife(time);
 
-        data = sim.CalculateDice(quantity, time);
+        data = sim.CalculateChemical(quantity, time);
+
         GraphIt(GraphPanelSimulator, data.s1);//plot all the points
         jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
     }//GEN-LAST:event_JButtonSimulateActionPerformed
