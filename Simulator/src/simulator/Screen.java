@@ -715,7 +715,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         }
         CalculatedHalfLife(time);
 
-        data = sim.CalculateChemical(quantity, time);
+        data = sim.CalculateChemical(quantity, time, true);
 
         GraphIt(GraphPanelSimulator, data.s1);//plot all the points
         jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
@@ -788,9 +788,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(s);
-
         if (panel == GraphPanel) {
-
             final JFreeChart chart = ChartFactory.createXYLineChart(
                     "Dados", // chart title
                     "Category", // domain axis label
