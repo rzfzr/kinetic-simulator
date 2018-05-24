@@ -120,7 +120,9 @@ public class Simulator {
         return data;
     }
 
-    public Data CalculateChemical(float quantity, float halflife) {
+    public Data CalculateChemical(float quantity, float halflife, boolean isUnd) {
+        boolean isNoisy = true;
+        float noise = 0;
         float initialQuantity = quantity;
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
         int time = 0;   //current roll
@@ -131,27 +133,50 @@ public class Simulator {
         //TODO: use hashMap as int is unique, or substitute '=' with correct number of spaces
         lm.addElement(new Pair(time, quantity)); //inicial point
         s1.add(0, quantity);
-        while (quantity > 0) {// if there are still dice
+
+        float cutOff;
+        if (isUnd) {
+            cutOff = 1;
+        } else {
+            cutOff = (float) Math.pow(10, -22);
+        }
+        float lastQuantity = 0;
+        while (quantity > cutOff) {
             time++;
 
             quantity = (float) (initialQuantity * Math.pow((0.5f), (time / halflife)));
-            //            for (int i = 0; i < quantity; i++) {
-            //                int rand = ThreadLocalRandom.current().nextInt(1, (int) (halflife));//rand number between 1 and the number of sides of the dice
-            //                if (rand == 1) {
-            //                    quantity--;
-            ////                    System.out.println("less one");
-            //                }
-            //            }
-            //            System.out.println("roll: " + roll + " rolled: " + dice);
+
+            if (isNoisy) {//&& !isUnd
+                noise = (float) Math.random();
+
+                if (noise >= 0.5) {
+                    noise -= 1;
+//                    System.out.println("noise: " + noise);
+                }
+                quantity = quantity + (lastQuantity - quantity) * noise / 10;
+
+            }
+
+            lastQuantity = quantity;
+
             lm.addElement(new Pair(time, quantity));//add to the list
-            s1.add(time, quantity);//add to the chart (x,y)
+            if (isUnd) {
+                System.out.println("should be int!!!");
+                quantity = Math.round(quantity);
+                quantity = (int) quantity;
+                int qInt = (int) quantity;
+                s1.add(time, qInt);
+                System.out.println("quantity: " + qInt);
+            } else {
+                s1.add(time, quantity);//add to the chart (x,y)
+
+            }
         }
         Data data = new Data(s1, lm);
         return data;
     }
 
-    public Double CalculateSelected(int initialRoll, int finalRoll,
-            int initialDice, int finalDice) {
+    public Double CalculateSelected(int initialRoll, int finalRoll, int initialDice, int finalDice) {
         return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2))
                 / (double) (Math.log10((double) initialDice / finalDice));
     }

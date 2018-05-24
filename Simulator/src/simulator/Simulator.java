@@ -122,6 +122,7 @@ public class Simulator {
 
     public Data CalculateChemical(float quantity, float halflife, boolean isUnd) {
         boolean isNoisy = true;
+        float noise = 0;
         float initialQuantity = quantity;
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
         int time = 0;   //current roll
@@ -137,16 +138,39 @@ public class Simulator {
         if (isUnd) {
             cutOff = 1;
         } else {
-            cutOff = (float) Math.pow(10, -23);
+            cutOff = (float) Math.pow(10, -22);
         }
-
-        while (quantity > cutOff) {// if there are still dice
+        float lastQuantity = 0;
+        while (quantity > cutOff) {
             time++;
 
             quantity = (float) (initialQuantity * Math.pow((0.5f), (time / halflife)));
 
+            if (isNoisy) {//&& !isUnd
+                noise = (float) Math.random();
+
+                if (noise >= 0.5) {
+                    noise -= 1;
+//                    System.out.println("noise: " + noise);
+                }
+                quantity = quantity + (lastQuantity - quantity) * noise / 10;
+
+            }
+
+            lastQuantity = quantity;
+
             lm.addElement(new Pair(time, quantity));//add to the list
-            s1.add(time, quantity);//add to the chart (x,y)
+            if (isUnd) {
+                System.out.println("should be int!!!");
+                quantity = Math.round(quantity);
+                quantity = (int) quantity;
+                int qInt = (int) quantity;
+                s1.add(time, qInt);
+                System.out.println("quantity: " + qInt);
+            } else {
+                s1.add(time, quantity);//add to the chart (x,y)
+
+            }
         }
         Data data = new Data(s1, lm);
         return data;

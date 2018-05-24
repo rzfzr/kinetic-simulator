@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.ComboBox;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -71,7 +72,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         int lines = 11;
         String path = "../acervo.csv";
 
-        ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gramas", "Moleculas", "Unidades"}));
+        ComboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Gramas", "Mols", "Unidades"}));
         ComboTypeTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Anos", "Meses", "Dias", "Horas", "Minutos"}));
 
         ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(sim.getDataCSV(0, lines, path)));
@@ -714,9 +715,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         }
         CalculatedHalfLife(time);
+        boolean isUnd = false;
 
-        data = sim.CalculateChemical(quantity, time);
+//        System.out.println(ComboType.getItemAt(ComboType.getSelectedIndex()));
+        if (ComboType.getItemAt(ComboType.getSelectedIndex()) == "Unidades") {
+            System.out.println("isUnd");
+            isUnd = true;
 
+        }
+
+        data = sim.CalculateChemical(quantity, time, isUnd);
         GraphIt(GraphPanelSimulator, data.s1);//plot all the points
         jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
     }//GEN-LAST:event_JButtonSimulateActionPerformed
@@ -788,9 +796,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(s);
-
         if (panel == GraphPanel) {
-
             final JFreeChart chart = ChartFactory.createXYLineChart(
                     "Dados", // chart title
                     "Category", // domain axis label
