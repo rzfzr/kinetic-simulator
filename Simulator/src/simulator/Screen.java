@@ -235,6 +235,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jButton1 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         LabelSimulatorCalculated = new javax.swing.JLabel();
+        jCheckBoxRandom = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -368,6 +369,9 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         LabelSimulatorCalculated.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
+        jCheckBoxRandom.setSelected(true);
+        jCheckBoxRandom.setText("Random");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -407,11 +411,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                                 .addComponent(jButton1)
                                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(BetterScrollSimulator)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(BetterScrollSimulator)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jCheckBoxRandom))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel19)
@@ -465,9 +474,15 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel19)
                     .addComponent(LabelSimulatorCalculated, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBoxRandom)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("Meia Vida Quimica", jPanel1);
@@ -775,8 +790,10 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             isUnd = true;
 
         }
+        
+        boolean ch = jCheckBoxRandom.isSelected();
 
-        data = sim.CalculateChemical(quantity, time, isUnd);
+        data = sim.CalculateChemical(quantity, time, isUnd,ch);
         GraphIt(GraphPanelSimulator, data.s1);//plot all the points
         jList3.setModel(data.lm);//after this the list is updated when we add or remove to the model
     }//GEN-LAST:event_JButtonSimulateActionPerformed
@@ -991,6 +1008,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JButton jButtonClearDice;
     private javax.swing.JButton jButtonRollDice;
     private javax.swing.JCheckBox jCheckBoxCustomElement;
+    private javax.swing.JCheckBox jCheckBoxRandom;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

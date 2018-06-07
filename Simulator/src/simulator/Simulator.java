@@ -120,8 +120,8 @@ public class Simulator {
         return data;
     }
 
-    public Data CalculateChemical(float quantity, float halflife, boolean isUnd) {
-        boolean isNoisy = true;
+    public Data CalculateChemical(float quantity, float halflife, boolean isUnd, boolean isNoisy) {
+//        boolean isNoisy = true;
         float noise = 0;
         float initialQuantity = quantity;
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
