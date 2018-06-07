@@ -160,15 +160,13 @@ public class Simulator {
             lastQuantity = quantity;
 
             if (isUnd) {
-                System.out.println("should be int!!!");
                 quantity = Math.round(quantity);
                 int qInt = (int) quantity;
-//                time=(int)time;
                 s1.add(time, qInt);
-                lm.addElement(new Pair(time, qInt));//add to the list
+                lm.addElement(new Pair(time, qInt));
             } else {
-            lm.addElement(new Pair(time, quantity));//add to the list
-                s1.add(time, quantity);//add to the chart (x,y)
+            lm.addElement(new Pair(time, quantity));
+                s1.add(time, quantity);
 
             }
         }

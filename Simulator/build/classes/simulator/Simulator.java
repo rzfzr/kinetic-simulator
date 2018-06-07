@@ -120,8 +120,8 @@ public class Simulator {
         return data;
     }
 
-    public Data CalculateChemical(float quantity, float halflife, boolean isUnd) {
-        boolean isNoisy = true;
+    public Data CalculateChemical(float quantity, float halflife, boolean isUnd, boolean isNoisy) {
+//        boolean isNoisy = true;
         float noise = 0;
         float initialQuantity = quantity;
         final XYSeries s1 = new XYSeries("Decaimento"); //line to plot
@@ -159,16 +159,14 @@ public class Simulator {
 
             lastQuantity = quantity;
 
-            lm.addElement(new Pair(time, quantity));//add to the list
             if (isUnd) {
-                System.out.println("should be int!!!");
                 quantity = Math.round(quantity);
-                quantity = (int) quantity;
                 int qInt = (int) quantity;
                 s1.add(time, qInt);
-                System.out.println("quantity: " + qInt);
+                lm.addElement(new Pair(time, qInt));
             } else {
-                s1.add(time, quantity);//add to the chart (x,y)
+            lm.addElement(new Pair(time, quantity));
+                s1.add(time, quantity);
 
             }
         }
@@ -176,9 +174,13 @@ public class Simulator {
         return data;
     }
 
-    public Double CalculateSelected(int initialRoll, int finalRoll, int initialDice, int finalDice) {
+    public Double CalculateDiceSelected(int initialRoll, int finalRoll, int initialDice, int finalDice) {
         return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2))
                 / (double) (Math.log10((double) initialDice / finalDice));
+    }
+    
+    public Double CalculateSimulatorSelected(double initialRoll, double finalRoll, double initialDice, double finalDice) {
+        return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2)) / (double) (Math.log10((double) initialDice / finalDice));
     }
 
 }
