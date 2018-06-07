@@ -83,7 +83,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         ComboTypeTime.setEnabled(false);
         jLabel18.setEnabled(false);
 
-        LabelResultCalculated.setText("Selecione 2");
+        LabelDiceCalculated.setText("Selecione 2");
 //        CalculateSelected.setEnabled(false);
 
 //        jList1.getSelectionModel().setSelectionInterval(0, 3);
@@ -91,32 +91,24 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jList1.setSelectionModel(new DefaultListSelectionModel() {
             @Override
             public void setSelectionInterval(int index0, int index1) {
-
                 int pos[] = jList1.getSelectedIndices();
-
                 System.out.println("Selected: " + index0 + " and " + index1);//why 2 ?? dk
-
                 if (super.isSelectedIndex(index0)) {//is selected so deselect
                     super.removeSelectionInterval(index0, index1);
-
-//                    CalculateSelected.setEnabled(false);
-                    LabelResultCalculated.setText("Selecione 2");
-                } else {//if is not selected so select it
-                    if (jList1.getSelectedValuesList().size() < 2) {//less than 2 so just add
+                    LabelDiceCalculated.setText("Selecione 2");
+                } else {
+                    if (jList1.getSelectedValuesList().size() < 2) {
                         super.addSelectionInterval(index0, index1);
                         if (jList1.getSelectedValuesList().size() == 2) {
-//                            CalculateSelected.setEnabled(true);
-
-                            UpdateResultCalculated();
+                            UpdateCalculatedDice();
                         }
-                    } else {//more than 2, add but delete one
-                        if (index0 > pos[1]) {//more than last so delete last
+                    } else {
+                        if (index0 > pos[1]) {
                             super.removeSelectionInterval(pos[1], pos[1]);
-                        } else if (index0 < pos[0]) {//less than first so delete first
+                        } else if (index0 < pos[0]) {
                             super.removeSelectionInterval(pos[0], pos[0]);
-                        } else {  //its between them so check which is closer
-                            //pos0 -- index -- pos1
-                            if (index0 - pos[0] < pos[1] - index0) {//closer to first
+                        } else { 
+                            if (index0 - pos[0] < pos[1] - index0) {
                                 super.removeSelectionInterval(pos[0], pos[0]);
                             } else {
                                 super.removeSelectionInterval(pos[1], pos[1]);
@@ -125,19 +117,55 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         }
                         super.addSelectionInterval(index0, index1);//after deleting one, add new
 
-                        UpdateResultCalculated();
+                        UpdateCalculatedDice();
 
                     }
                 }
             }
         });
-//
-//            jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-//        ComboTypeElement.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Ferro", "Ouro", "Prata"}));
+        jList3.setSelectionModel(new DefaultListSelectionModel() {
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+                int pos[] = jList3.getSelectedIndices();
+                System.out.println("Selected: " + index0 + " and " + index1);//why 2 ?? dk
+                if (super.isSelectedIndex(index0)) {//is selected so deselect
+                    super.removeSelectionInterval(index0, index1);
+                    LabelSimulatorCalculated.setText("Selecione 2");
+                } else {
+                    if (jList3.getSelectedValuesList().size() < 2) {
+                        super.addSelectionInterval(index0, index1);
+                        if (jList3.getSelectedValuesList().size() == 2) {
+                            UpdateCalculatedSimulator();
+                        }
+                    } else {
+                        if (index0 > pos[1]) {
+                            super.removeSelectionInterval(pos[1], pos[1]);
+                        } else if (index0 < pos[0]) {
+                            super.removeSelectionInterval(pos[0], pos[0]);
+                        } else { 
+                            if (index0 - pos[0] < pos[1] - index0) {
+                                super.removeSelectionInterval(pos[0], pos[0]);
+                            } else {
+                                super.removeSelectionInterval(pos[1], pos[1]);
+                            }
 
+                        }
+                        super.addSelectionInterval(index0, index1);//after deleting one, add new
+
+                        UpdateCalculatedSimulator();
+
+                    }
+                }
+            }
+        });
+        
+        
+        
     }
 
-    private void UpdateResultCalculated() {
+    
+    
+    private void UpdateCalculatedDice() {
         int pos2[] = jList1.getSelectedIndices();
         List<String> ss = jList1.getSelectedValuesList();
         String[] ini = (data.lm.elementAt(pos2[0]).toString()).split("=");
@@ -150,9 +178,30 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         int initialDice = Integer.parseInt(ini[1]);
         int finalRoll = Integer.parseInt(fin[0]);
         int finalDice = Integer.parseInt(fin[1]);
+        
+        System.out.println("teste"+ (2.4+2));
+        
+        LabelDiceCalculated.setText(Double.toString(sim.CalculateDiceSelected(initialRoll, finalRoll, initialDice, finalDice)));
+    }
+    
+    
+    
+    private void UpdateCalculatedSimulator() {
+        int pos2[] = jList3.getSelectedIndices();
+        List<String> ss = jList3.getSelectedValuesList();
+        String[] ini = (data.lm.elementAt(pos2[0]).toString()).split("=");
+        String[] fin = (data.lm.elementAt(pos2[1]).toString()).split("=");
 
-        LabelResultCalculated.setText(Double.toString(sim.CalculateSelected(initialRoll, finalRoll, initialDice, finalDice)));
+        System.out.println("Selected Initial = " + ini[0] + " " + ini[1]);
+        System.out.println("Selected Final = " + fin[0] + " " + fin[1]);
 
+        double initialRoll = Integer.parseInt(ini[0]);
+        double initialDice = Integer.parseInt(ini[1]);
+        double finalRoll = Integer.parseInt(fin[0]);
+        double finalDice = Integer.parseInt(fin[1]);
+        
+        
+        LabelSimulatorCalculated.setText(Double.toString(sim.CalculateSimulatorSelected(initialRoll, finalRoll, initialDice, finalDice)));
     }
 
     @SuppressWarnings("unchecked")
@@ -171,20 +220,21 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         JButtonSimulate = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         GraphPanelSimulator = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        BetterScrollSimulator = new javax.swing.JScrollPane();
+        jList3 = new javax.swing.JList<>();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         value_p1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        CalculateSelected1 = new javax.swing.JButton();
         ComboTypeElement = new javax.swing.JComboBox<>();
         InputTimeTemp = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         ComboTypeTime = new javax.swing.JComboBox<>();
         jCheckBoxCustomElement = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        LabelSimulatorCalculated = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -194,7 +244,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jButtonRollDice = new javax.swing.JButton();
         jButtonClearDice = new javax.swing.JButton();
         GraphPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        BetterScrollDice = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -203,7 +253,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         SaveDice = new javax.swing.JButton();
         LoadDice = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        LabelResultCalculated = new javax.swing.JLabel();
+        LabelDiceCalculated = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -254,12 +304,12 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         GraphPanelSimulator.setBackground(new java.awt.Color(255, 255, 204));
         GraphPanelSimulator.setLayout(new java.awt.BorderLayout());
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        jList3.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        BetterScrollSimulator.setViewportView(jList3);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Meia Vida\n");
@@ -276,13 +326,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
-            }
-        });
-
-        CalculateSelected1.setText("Calcular");
-        CalculateSelected1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CalculateSelected1ActionPerformed(evt);
             }
         });
 
@@ -320,6 +363,11 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             }
         });
 
+        jLabel19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel19.setText("Meia Vida Calculada:");
+
+        LabelSimulatorCalculated.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -328,48 +376,54 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addGap(56, 56, 56)
-                        .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel16)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addGap(56, 56, 56)
+                                .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(value_p1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(JButtonSimulate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ComboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(InputQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBoxCustomElement)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton1)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(BetterScrollSimulator)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(value_p1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(JButtonSimulate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ComboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(InputQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBoxCustomElement)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton1)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CalculateSelected1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(LabelSimulatorCalculated, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(GraphPanelSimulator, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -383,7 +437,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                             .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBoxCustomElement)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
                             .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,10 +460,12 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CalculateSelected1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addComponent(BetterScrollSimulator)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel19)
+                    .addComponent(LabelSimulatorCalculated, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -464,7 +520,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        BetterScrollDice.setViewportView(jList1);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Meia Vida\n");
@@ -494,7 +550,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Meia Vida Calculada:");
 
-        LabelResultCalculated.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        LabelDiceCalculated.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -521,16 +577,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(GraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                    .addComponent(GraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel11)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(BetterScrollDice, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(LabelResultCalculated, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LabelDiceCalculated, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -540,7 +596,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(GraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 20, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -566,13 +622,13 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1)))
+                        .addComponent(BetterScrollDice)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(LoadDice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel11))
-                    .addComponent(LabelResultCalculated, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(LabelDiceCalculated, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -683,10 +739,6 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboTypeElementActionPerformed
 
-    private void CalculateSelected1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalculateSelected1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CalculateSelected1ActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -726,7 +778,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         data = sim.CalculateChemical(quantity, time, isUnd);
         GraphIt(GraphPanelSimulator, data.s1);//plot all the points
-        jList2.setModel(data.lm);//after this the list is updated when we add or remove to the model
+        jList3.setModel(data.lm);//after this the list is updated when we add or remove to the model
     }//GEN-LAST:event_JButtonSimulateActionPerformed
 
     private void InputQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputQuantityActionPerformed
@@ -760,7 +812,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
 
         DefaultListModel lm;  //empty model to the list
         lm = new DefaultListModel();
-        jList2.setModel(lm);
+        jList3.setModel(lm);
 
         System.out.println("Cleared Simulator Screen");
     }
@@ -917,7 +969,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CalculateSelected1;
+    private javax.swing.JScrollPane BetterScrollDice;
+    private javax.swing.JScrollPane BetterScrollSimulator;
     private javax.swing.JComboBox<String> ComboType;
     private javax.swing.JComboBox<String> ComboTypeElement;
     private javax.swing.JComboBox<String> ComboTypeTime;
@@ -928,7 +981,8 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JTextField InputSides;
     private javax.swing.JTextField InputTimeTemp;
     private javax.swing.JButton JButtonSimulate;
-    private javax.swing.JLabel LabelResultCalculated;
+    private javax.swing.JLabel LabelDiceCalculated;
+    private javax.swing.JLabel LabelSimulatorCalculated;
     private javax.swing.JButton LoadDice;
     private javax.swing.JButton SaveDice;
     private javax.swing.JButton jButton1;
@@ -946,17 +1000,16 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
+    private javax.swing.JList<String> jList3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel value_p;

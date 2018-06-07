@@ -176,9 +176,13 @@ public class Simulator {
         return data;
     }
 
-    public Double CalculateSelected(int initialRoll, int finalRoll, int initialDice, int finalDice) {
+    public Double CalculateDiceSelected(int initialRoll, int finalRoll, int initialDice, int finalDice) {
         return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2))
                 / (double) (Math.log10((double) initialDice / finalDice));
+    }
+    
+    public Double CalculateSimulatorSelected(double initialRoll, double finalRoll, double initialDice, double finalDice) {
+        return (double) ((double) (finalRoll - initialRoll) * (double) Math.log10(2)) / (double) (Math.log10((double) initialDice / finalDice));
     }
 
 }
