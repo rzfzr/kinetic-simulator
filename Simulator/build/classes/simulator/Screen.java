@@ -385,31 +385,31 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel18)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(InputTimeTemp))
-                                        .addGap(40, 40, 40))
-                                    .addComponent(jLabel16)
-                                    .addComponent(jCheckBoxCustomElement)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(ComboTypeElement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(InputQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(ComboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel17)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(JButtonSimulate)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jCheckBoxRandom)
                                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel16)
+                                            .addComponent(jCheckBoxCustomElement)
+                                            .addComponent(ComboTypeElement, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(InputQuantity)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel13)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(ComboType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jLabel14)
+                                            .addComponent(jLabel17)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(JButtonSimulate)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jCheckBoxRandom)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel18)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(InputTimeTemp))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel19)
@@ -447,11 +447,11 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCheckBoxCustomElement)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
-                            .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ComboTypeTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(InputTimeTemp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -648,7 +648,7 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("Meia Vida Química");
@@ -834,52 +834,66 @@ public class Screen extends javax.swing.JFrame implements ChartMouseListener {
     
     
     
-        DecimalFormat df = new DecimalFormat("#.0000");
+        DecimalFormat df = new DecimalFormat("#.####");
     public void SetPeriodicElement(String name, int isotope,
-            int exponential, float seconds) {
+            int exponential, double seconds) {
         ClearSimulateScreen();
-        
-        seconds=seconds*(float) Math.pow(10, exponential);
+//        seconds=
         
         
         double time ;
+        seconds=seconds*Math.pow(10, exponential);
+        double minutes = seconds/60;
+        double hours = seconds/3600;
+        double days = seconds/86400;
+        double weeks = seconds/604800;
+        double months = seconds/2592000;
+        double years = seconds/31556951.999999996;
+        double decades = seconds/315569520;
+        double centuries = seconds/3155695200L;
+        double millenniums = seconds/31557600000L;
         
         
-        if(seconds < 1000){
-            time = seconds;
-            
+        
+        int limiter = 10000;
+        if(seconds < limiter){
+            time = seconds;            
             ComboTypeTime.setSelectedIndex(9);
-        }else if( seconds < 60000){
-            time = seconds/60;//minutes
+        }else if( minutes < limiter){
+            time = minutes;
             ComboTypeTime.setSelectedIndex(8);
-        }else if( seconds < 3600000){
-            time = seconds/3600; //hours
+        }else if( hours < limiter){
+            time = hours;
             ComboTypeTime.setSelectedIndex(7);
-        }else if( seconds < 86400000){
-            time = seconds/86400; //days
+        }else if( days< limiter){
+            time = days; //days
             ComboTypeTime.setSelectedIndex(6);
-        }else if( seconds < 604800000){
-            time = seconds/604800; //weeks
+        }else if( weeks< limiter){
+            time = weeks; //weeks
             ComboTypeTime.setSelectedIndex(5);
-        }else if( seconds < 2.629746e9){
-            time = seconds/2.628e+6; //months
+        }else if( months<limiter){
+            time = months; //months
             ComboTypeTime.setSelectedIndex(4);
-        }else if( seconds < 3.1556952e10){
-            time = seconds/3.154e+7; //years
+        }else if( years<limiter){
+            time = years; //years
             ComboTypeTime.setSelectedIndex(3);
-        }else if (seconds <3.1556952e11){
-            time = seconds/3.154e+8; //decades
+        }else if (decades<limiter){
+            
+            time = decades;
             ComboTypeTime.setSelectedIndex(2);
-        }else if (seconds <3.1556952e12 ){
-        time = seconds/3.1556952e9;//centuries
+        
+        
+        }else if (centuries<limiter){
+        time = centuries;
             ComboTypeTime.setSelectedIndex(1);
         }else{
-            time = seconds/3.154e+10;//milenium
+            time = millenniums;
             ComboTypeTime.setSelectedIndex(0);
         }
         
-        System.out.println("selecting periodict element" + seconds + " "+exponential + " = " +time);
+        System.out.println("selecting periodic element " + seconds + " "+exponential + " = " +time);
 
+//        InputTimeTemp.setText(String.valueOf(df.format(time)));
         InputTimeTemp.setText(String.valueOf(time));
 
         jCheckBoxCustomElement.setSelected(true);
